@@ -3,7 +3,8 @@ const CURRENCY_MAP = {
     '֏': 'AMD', 'zł': 'PLN', 'ZŁ': 'PLN', '₸': 'KZT', '₴': 'UAH', '₾': 'GEL',
     '฿': 'THB', '₪': 'ILS', '₩': 'KRW', '₫': 'VND', '₦': 'NGN', '₱': 'PHP',
     '₲': 'PYG', '₡': 'CRC', '₺': 'TRY', '₭': 'LAK', '₮': 'MNT', '៛': 'KHR',
-    'руб': 'RUB', 'руб.': 'RUB', 'грн': 'UAH', 'дин.': 'RSD', 'лв': 'BGN',
+    'руб': 'RUB', 'руб.': 'RUB', 'грн': 'UAH', 'дин.': 'RSD', 'дин': 'RSD',
+    'din': 'RSD', 'DIN': 'RSD', 'динар': 'RSD', 'лв': 'BGN',
     'lei': 'RON', 'Ft': 'HUF', 'Kč': 'CZK', 'Rp': 'IDR', 'RM': 'MYR',
     'R$': 'BRL', 'C$': 'CAD', 'A$': 'AUD', 'HK$': 'HKD', 'NT$': 'TWD',
     'NZ$': 'NZD', 'RD$': 'DOP', 'S$': 'SGD',
@@ -55,7 +56,8 @@ const LANG_TO_CURRENCY = {
     'pl': 'PLN', 'kk': 'KZT', 'uk': 'UAH', 'ru': 'RUB', 'ja': 'JPY',
     'de': 'EUR', 'fr': 'EUR', 'es': 'EUR', 'it': 'EUR', 'ko': 'KRW',
     'zh': 'CNY', 'th': 'THB', 'ka': 'GEL', 'hy': 'AMD', 'vi': 'VND',
-    'cs': 'CZK', 'hu': 'HUF', 'ro': 'RON', 'tr': 'TRY', 'el': 'EUR'
+    'cs': 'CZK', 'hu': 'HUF', 'ro': 'RON', 'tr': 'TRY', 'el': 'EUR',
+    'sr': 'RSD'
 };
 
 const CACHE_TTL_MS = 3600 * 1000;
@@ -91,6 +93,33 @@ const sortedKeys = Object.keys(CURRENCY_MAP).sort((a, b) => b.length - a.length)
 const symbolsPattern = sortedKeys.map(escapeRegExp).join('|');
 const currencyRegex = new RegExp(`(?:(${symbolsPattern})\\s*([\\d\\s.,]+)|([\\d\\s.,]+)\\s*(${symbolsPattern}))`, 'i');
 const UNIQUE_CURRENCIES = [...new Set(Object.values(CURRENCY_MAP))].sort();
+
+async function getRates() {
+    return new Promise((resolve) => {
+        chrome.storage.local.get(['cachedRates', 'lastFetch'], async (storage) => {
+            let rates = storage.cachedRates;
+            const now = Date.now();
+
+            if (!rates || !storage.lastFetch || (now - storage.lastFetch > CACHE_TTL_MS)) {
+                try {
+                    const response = await fetch(API_URL);
+                    const data = await response.json();
+
+                    rates = data.reduce((acc, item) => {
+                        acc[item.quote] = item.rate;
+                        return acc;
+                    }, {});
+
+                    chrome.storage.local.set({ cachedRates: rates, lastFetch: now });
+                } catch (err) {
+                    console.error('Failed to fetch Frankfurter rates:', err);
+                    return resolve(null);
+                }
+            }
+            resolve(rates);
+        });
+    });
+}
 
 function renderWidget(currentCurrency) {
     if (document.getElementById('cc-widget-container')) return;
@@ -131,8 +160,8 @@ function renderWidget(currentCurrency) {
         position: 'absolute',
         bottom: '60px',
         right: '0',
-        width: '180px',
-        maxHeight: '250px',
+        width: '210px',
+        maxHeight: '300px',
         backgroundColor: '#1e293b',
         borderRadius: '8px',
         boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
@@ -142,7 +171,7 @@ function renderWidget(currentCurrency) {
     });
 
     const searchInput = document.createElement('input');
-    searchInput.placeholder = 'Search currency...';
+    searchInput.placeholder = 'Search or enter amount (e.g. 50 USD)';
     Object.assign(searchInput.style, {
         width: '100%',
         padding: '8px',
@@ -153,6 +182,19 @@ function renderWidget(currentCurrency) {
         color: '#fff',
         fontSize: '12px',
         outline: 'none'
+    });
+
+    const resultBox = document.createElement('div');
+    resultBox.id = 'cc-conversion-result';
+    Object.assign(resultBox.style, {
+        display: 'none',
+        padding: '10px 12px',
+        backgroundColor: '#0284c7',
+        color: '#ffffff',
+        fontWeight: 'bold',
+        fontSize: '13px',
+        borderBottom: '1px solid #334155',
+        wordBreak: 'break-word'
     });
 
     const listContainer = document.createElement('div');
@@ -182,6 +224,8 @@ function renderWidget(currentCurrency) {
                         button.textContent = code;
                         currentCurrency = code;
                         menu.style.display = 'none';
+                        searchInput.value = '';
+                        resultBox.style.display = 'none';
                         populateList();
                     });
                 });
@@ -189,7 +233,49 @@ function renderWidget(currentCurrency) {
             });
     }
 
-    searchInput.addEventListener('input', (e) => populateList(e.target.value));
+    // Handle Dual Mode Input: Calculation when numbers exist, search when letters only
+    searchInput.addEventListener('input', async (e) => {
+        const rawValue = e.target.value.trim();
+
+        // Check if input contains digits
+        if (/\d/.test(rawValue)) {
+            const match = rawValue.match(currencyRegex);
+            if (match) {
+                const matchedSymbol = match[1] || match[4];
+                const rawAmount = match[2] || match[3];
+
+                const baseKey = Object.keys(CURRENCY_MAP).find(
+                    key => key.toLowerCase() === matchedSymbol.toLowerCase()
+                );
+
+                const sourceCurrency = CURRENCY_MAP[baseKey];
+                const amount = parseAmount(rawAmount);
+
+                if (!isNaN(amount) && sourceCurrency) {
+                    if (sourceCurrency === currentCurrency) {
+                        resultBox.textContent = `Already in ${currentCurrency}`;
+                        resultBox.style.display = 'block';
+                        populateList();
+                        return;
+                    }
+
+                    const rates = await getRates();
+                    if (rates && rates[sourceCurrency] && rates[currentCurrency]) {
+                        const converted = (amount * (rates[currentCurrency] / rates[sourceCurrency])).toFixed(2);
+                        resultBox.textContent = `${amount} ${sourceCurrency} ≈ ${converted} ${currentCurrency}`;
+                        resultBox.style.display = 'block';
+                        populateList();
+                        return;
+                    }
+                }
+            }
+        }
+
+        // Default: Letters-only Search Mode
+        resultBox.style.display = 'none';
+        populateList(rawValue);
+    });
+
     button.addEventListener('click', (e) => {
         e.stopPropagation();
         const isVisible = menu.style.display === 'flex';
@@ -203,6 +289,7 @@ function renderWidget(currentCurrency) {
 
     populateList();
     menu.appendChild(searchInput);
+    menu.appendChild(resultBox);
     menu.appendChild(listContainer);
     container.appendChild(menu);
     container.appendChild(button);
@@ -325,40 +412,17 @@ document.addEventListener('mouseup', async (e) => {
 
     const range = selection.getRangeAt(0);
 
-    chrome.storage.local.get(['cachedRates', 'lastFetch', 'targetCurrency'], async (storage) => {
+    chrome.storage.local.get(['targetCurrency'], async (storage) => {
         const targetCurrency = storage.targetCurrency || detectDefaultCurrency();
 
-        // If source matches target currency, display matching hint message
         if (sourceCurrency === targetCurrency) {
             showTooltip(range, `Already in ${targetCurrency}`);
             return;
         }
 
-        let rates = storage.cachedRates;
-        const now = Date.now();
-
-        if (!rates || !storage.lastFetch || (now - storage.lastFetch > CACHE_TTL_MS)) {
-            try {
-                const response = await fetch(API_URL);
-                const data = await response.json();
-
-                rates = data.reduce((acc, item) => {
-                    acc[item.quote] = item.rate;
-                    return acc;
-                }, {});
-
-                chrome.storage.local.set({ cachedRates: rates, lastFetch: now });
-            } catch (err) {
-                console.error('Failed to fetch Frankfurter rates:', err);
-                return;
-            }
-        }
-
-        const sourceRate = rates[sourceCurrency];
-        const targetRate = rates[targetCurrency];
-
-        if (sourceRate && targetRate) {
-            const converted = (amount * (targetRate / sourceRate)).toFixed(2);
+        const rates = await getRates();
+        if (rates && rates[sourceCurrency] && rates[targetCurrency]) {
+            const converted = (amount * (rates[targetCurrency] / rates[sourceCurrency])).toFixed(2);
             showTooltip(range, `≈ ${converted} ${targetCurrency}`);
         }
     });
