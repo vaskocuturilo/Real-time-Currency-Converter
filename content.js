@@ -3,7 +3,7 @@ const CURRENCY_MAP = {
     '֏': 'AMD', 'zł': 'PLN', 'ZŁ': 'PLN', '₸': 'KZT', '₴': 'UAH', '₾': 'GEL',
     '฿': 'THB', '₪': 'ILS', '₩': 'KRW', '₫': 'VND', '₦': 'NGN', '₱': 'PHP',
     '₲': 'PYG', '₡': 'CRC', '₺': 'TRY', '₭': 'LAK', '₮': 'MNT', '៛': 'KHR',
-    'руб': 'RUB', 'руб.': 'RUB', 'грн': 'UAH', 'дин.': 'RSD', 'дин': 'RSD',
+    'руб': 'RUB', 'руб.': 'RUB', 'евро': 'EUR', 'грн': 'UAH', 'дин.': 'RSD', 'дин': 'RSD',
     'din': 'RSD', 'DIN': 'RSD', 'динар': 'RSD', 'лв': 'BGN',
     'lei': 'RON', 'Ft': 'HUF', 'Kč': 'CZK', 'Rp': 'IDR', 'RM': 'MYR',
     'R$': 'BRL', 'C$': 'CAD', 'A$': 'AUD', 'HK$': 'HKD', 'NT$': 'TWD',
