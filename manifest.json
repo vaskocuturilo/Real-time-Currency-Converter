@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Real-time Currency Converter",
-  "version": "3.0",
-  "description": "Converts one currency to another in real time",
+  "name": "Currency Converter Extension",
+  "version": "2.0",
+  "description": "Converts selected text and provides a floating currency widget.",
   "permissions": [
     "storage"
   ],
@@ -18,7 +18,21 @@
         "<all_urls>"
       ],
       "js": [
-        "content.js"
+        "loader.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content.js",
+        "constants.js",
+        "utils/*.js",
+        "services/*.js",
+        "ui/*.js"
+      ],
+      "matches": [
+        "<all_urls>"
       ]
     }
   ]
