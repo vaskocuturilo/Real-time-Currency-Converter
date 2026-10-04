@@ -68,8 +68,15 @@ export const LANG_TO_CURRENCY = {
 const sortedKeys = Object.keys(CURRENCY_MAP).sort((a, b) => b.length - a.length);
 const symbolsPattern = sortedKeys.map(escapeRegExp).join('|');
 
+const numPattern = `[\\d\\s.,]+[kKmMbB]?`;
+
+const leadingRange = `(?:(${symbolsPattern})\\s*(${numPattern})\\s*(?:[-–—]|to)\\s*(?:${symbolsPattern}\\s*)?(${numPattern}))`;
+const trailingRange = `(?:(${numPattern})\\s*(?:${symbolsPattern}\\s*)?(?:[-–—]|to)\\s*(${numPattern})\\s*(${symbolsPattern}))`;
+const singleLeading = `(?:(${symbolsPattern})\\s*(${numPattern}))`;
+const singleTrailing = `(?:(${numPattern})\\s*(${symbolsPattern}))`;
+
 export const CURRENCY_REGEX = new RegExp(
-    `(?:(${symbolsPattern})\\s*([\\d\\s.,]+)|([\\d\\s.,]+)\\s*(${symbolsPattern}))`,
+    `${leadingRange}|${trailingRange}|${singleLeading}|${singleTrailing}`,
     'i'
 );
 

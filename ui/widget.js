@@ -1,5 +1,7 @@
-import { UNIQUE_CURRENCIES, CURRENCY_REGEX } from '../constants.js';
-import { parseAmount } from '../utils/parser.js';
+// ui/widget.js
+
+import { UNIQUE_CURRENCIES } from '../constants.js';
+import { parseCurrencyMatch } from '../utils/parser.js';
 import { currencyService } from '../services/currencyService.js';
 
 export class Widget {
@@ -58,7 +60,7 @@ export class Widget {
         });
 
         this.searchInput = document.createElement('input');
-        this.searchInput.placeholder = 'Search or enter amount (e.g. 50 USD)';
+        this.searchInput.placeholder = 'Search or enter amount (e.g. 50-100 USD)';
         Object.assign(this.searchInput.style, {
             width: '100%', padding: '8px', boxSizing: 'border-box', border: 'none',
             borderBottom: '1px solid #334155', backgroundColor: '#0f172a',
@@ -119,21 +121,20 @@ export class Widget {
             const rawValue = e.target.value.trim();
 
             if (/\d/.test(rawValue)) {
-                const match = rawValue.match(CURRENCY_REGEX);
-                if (match) {
-                    const matchedSymbol = match[1] || match[4];
-                    const rawAmount = match[2] || match[3];
-
-                    const sourceCurrency = currencyService.resolveSourceCurrency(matchedSymbol);
-                    const amount = parseAmount(rawAmount);
-
-                    if (!isNaN(amount) && sourceCurrency) {
-                        const conversion = await currencyService.convert(amount, sourceCurrency, this.currentCurrency);
+                const parsed = parseCurrencyMatch(rawValue);
+                if (parsed) {
+                    const sourceCurrency = currencyService.resolveSourceCurrency(parsed.symbol);
+                    if (sourceCurrency) {
+                        const conversion = await currencyService.convert(parsed, this.currentCurrency);
 
                         if (conversion.status === 'SAME_CURRENCY') {
                             this.resultBox.textContent = `Already in ${this.currentCurrency}`;
                         } else if (conversion.status === 'SUCCESS') {
-                            this.resultBox.textContent = `${amount} ${sourceCurrency} ≈ ${conversion.result} ${this.currentCurrency}`;
+                            const originalLabel = parsed.isRange
+                                ? `${parsed.amount1} - ${parsed.amount2} ${sourceCurrency}`
+                                : `${parsed.amount1} ${sourceCurrency}`;
+
+                            this.resultBox.textContent = `${originalLabel} ≈ ${conversion.result} ${this.currentCurrency}`;
                         } else {
                             this.resultBox.textContent = 'Offline';
                         }

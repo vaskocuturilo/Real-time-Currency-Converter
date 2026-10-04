@@ -1,5 +1,6 @@
-import { CURRENCY_REGEX } from './constants.js';
-import { parseAmount } from './utils/parser.js';
+// content.js
+
+import { parseCurrencyMatch } from './utils/parser.js';
 import { currencyService } from './services/currencyService.js';
 import { Tooltip } from './ui/tooltip.js';
 import { Widget } from './ui/widget.js';
@@ -32,21 +33,16 @@ async function initApp() {
       return;
     }
 
-    const match = selectedText.match(CURRENCY_REGEX);
-    if (!match) return;
+    const parsed = parseCurrencyMatch(selectedText);
+    if (!parsed) return;
 
-    const matchedSymbol = match[1] || match[4];
-    const rawAmount = match[2] || match[3];
-
-    const sourceCurrency = currencyService.resolveSourceCurrency(matchedSymbol);
-    const amount = parseAmount(rawAmount);
-
-    if (isNaN(amount) || !sourceCurrency) return;
+    const sourceCurrency = currencyService.resolveSourceCurrency(parsed.symbol);
+    if (!sourceCurrency) return;
 
     const activeTargetCurrency = await currencyService.getTargetCurrency();
     const range = selection.getRangeAt(0);
 
-    const conversion = await currencyService.convert(amount, sourceCurrency, activeTargetCurrency);
+    const conversion = await currencyService.convert(parsed, activeTargetCurrency);
 
     if (conversion.status === 'SAME_CURRENCY') {
       Tooltip.show(range, `Already in ${activeTargetCurrency}`);
