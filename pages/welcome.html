@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Real Time Currency Converter</title>
+  <style>
+    :root {
+      --primary: #0a66c2;
+      --bg: #f3f2ef;
+      --card: #ffffff;
+      --text: #191919;
+      --accent: #eef3f8;
+    }
+
+    body {
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .card {
+      background: var(--card);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      color: var(--primary);
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 32px;
+    }
+
+    .method-box {
+      text-align: left;
+      background: var(--accent);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      border-left: 4px solid var(--primary);
+    }
+
+    h3 {
+      margin-top: 0;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    ol {
+      padding-left: 20px;
+      margin-bottom: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .badge {
+      background: #00b894;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      vertical-align: middle;
+    }
+
+    #saveBtn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 24px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    #saveBtn:hover {
+      background: #004182;
+      transform: scale(1.02);
+    }
+
+    kbd {
+      background: #eee;
+      border-radius: 3px;
+      border: 1px solid #b4b4b4;
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+      color: #333;
+      display: inline-block;
+      font-size: 0.85em;
+      font-weight: 700;
+      line-height: 1;
+      padding: 2px 4px;
+    }
+
+    .method-box {
+      text-align: left;
+      background: #ffffff;
+      padding: 18px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #e0e0e0;
+      transition: transform 0.2s;
+    }
+
+    .method-box:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .method-desc {
+      font-size: 13px;
+      color: #666;
+      margin: 4px 0 12px 0;
+      font-style: italic;
+    }
+
+    /* Color Coding */
+    .manual {
+      border-left: 5px solid #6c5ce7;
+    }
+
+    /* Purple */
+    .pencil {
+      border-left: 5px solid #00b894;
+    }
+
+    /* Green */
+    .bulk {
+      border-left: 5px solid #0a66c2;
+    }
+
+    /* LinkedIn Blue */
+
+    h3 {
+      font-size: 15px;
+      margin: 0;
+      color: #2d3436;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>🚀 Get Started with Real Time Currency Converter</h1>
+      <p class="subtitle">Choose the method that works best for you:</p>
+
+      <div class="method-box manual">
+        <h3>✍️ Method 1: Manual Add (Instant)</h3>
+        <p class="method-desc">Have a specific name in mind? Add it directly.</p>
+        <ol>
+          <li>Open the extension popup by clicking the 🧩 black icon with a short currency name (In the lower right
+            corner)</li>
+          <li>Type the <strong>amount</strong> with currecny name or icon into the input field.</li>
+          <li>Currency conversion <kbd>will be performed</kbd> automatically.</li>
+        </ol>
+      </div>
+
+      <div class="method-box pencil">
+        <h3>✏️ Method 2: Highlighting Mode (Visual)</h3>
+        <p class="method-desc">Choose conversion currency from the drop-down list</p>
+        <ol>
+          <li>Find your amount with currency <strong>on the browser page</strong> highlight it.</li>
+          <li>It will appear<strong>hint</strong> with the amount that was converted.</li>
+        </ol>
+      </div>
+
+      <div class="method-box bulk">
+        <h3>📂 Extension supports all currencies in the world</h3>
+        <p class="method-desc">Works with all types of data provision:</p>
+        <ol>
+          <li><strong>1000 EURO</strong> -> <strong>1000€</strong> -> <strong>1000 Euro</strong>.</li>
+          <li><strong>1K Euro</strong> -> <strong>1K - 2K €</strong> -> <strong>1k - 2k Euro</strong>.</li>
+          <li><strong>1000 евро</strong> -> <strong>1K - 2K ЕВРО</strong> -> <strong>1k - 2k Евро</strong>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <button id="saveBtn">Go to Start</button>
+  </div>
+  <script src="welcome.js"></script>
+</body>
+
+</html>
