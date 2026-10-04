@@ -1,3 +1,5 @@
+// services/currencyService.js
+
 import { API_URL, CACHE_TTL_MS, CURRENCY_MAP } from '../constants.js';
 import { detectDefaultCurrency } from '../utils/locale.js';
 
@@ -62,15 +64,48 @@ class CurrencyService {
         return CURRENCY_MAP[baseKey] || null;
     }
 
-    async convert(amount, sourceCurrency, targetCurrency) {
+    async convert(parsedData, targetCurrency) {
+        let amount1, amount2, isRange, sourceCurrency;
+
+        if (typeof parsedData === 'object' && parsedData.symbol) {
+            sourceCurrency = this.resolveSourceCurrency(parsedData.symbol);
+            isRange = parsedData.isRange;
+            amount1 = parsedData.amount1;
+            amount2 = parsedData.amount2;
+        } else {
+            // Backward compatibility fallback
+            amount1 = arguments[0];
+            sourceCurrency = arguments[1];
+            targetCurrency = arguments[2];
+            isRange = false;
+        }
+
+        if (!sourceCurrency) return { status: 'INVALID_CURRENCY' };
+
         if (sourceCurrency === targetCurrency) {
             return { status: 'SAME_CURRENCY' };
         }
 
         const rates = await this.getRates();
         if (rates && rates[sourceCurrency] && rates[targetCurrency]) {
-            const converted = (amount * (rates[targetCurrency] / rates[sourceCurrency])).toFixed(2);
-            return { status: 'SUCCESS', result: converted };
+            const multiplier = rates[targetCurrency] / rates[sourceCurrency];
+
+            if (isRange) {
+                const res1 = (amount1 * multiplier).toFixed(2);
+                const res2 = (amount2 * multiplier).toFixed(2);
+                return {
+                    status: 'SUCCESS',
+                    isRange: true,
+                    result: `${res1} - ${res2}`
+                };
+            }
+
+            const converted = (amount1 * multiplier).toFixed(2);
+            return {
+                status: 'SUCCESS',
+                isRange: false,
+                result: converted
+            };
         }
 
         return { status: 'OFFLINE' };
