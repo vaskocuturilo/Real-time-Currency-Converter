@@ -6,25 +6,27 @@ export function escapeRegExp(str) {
     return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+const SUFFIX_MULTIPLIERS = {
+    'k': 1e3, 'к': 1e3,
+    'm': 1e6, 'м': 1e6,
+    'b': 1e9, 'б': 1e9
+};
+
 export function parseAmount(rawStr) {
-    let cleaned = rawStr.trim();
+    if (!rawStr) return NaN;
 
-    let multiplier = 1;
-    const scaleMatch = cleaned.match(/([kKmMbB])$/);
-    if (scaleMatch) {
-        const suffix = scaleMatch[1].toLowerCase();
-        if (suffix === 'k') multiplier = 1_000;
-        else if (suffix === 'm') multiplier = 1_000_000;
-        else if (suffix === 'b') multiplier = 1_000_000_000;
+    // 1. Extract trailing suffix (Latin or Cyrillic)
+    const suffixMatch = rawStr.match(/([kKmMbBкКмМбБ])\s*$/u);
+    const suffix = suffixMatch ? suffixMatch[1].toLowerCase() : null;
+    const multiplier = suffix ? SUFFIX_MULTIPLIERS[suffix] : 1;
 
-        cleaned = cleaned.slice(0, -1).trim();
-    }
-
-    cleaned = cleaned.replace(/[\s\u00A0]/g, '');
+    // 2. Clean out suffixes, spaces, and non-breaking spaces
+    let cleaned = rawStr.replace(/[kKmMbBкКмМбБ\s\u00A0]/gu, '');
     cleaned = cleaned.replace(/^[.,]+|[.,]+$/g, '');
 
     if (!cleaned) return NaN;
 
+    // 3. Handle decimal and thousand separators
     const hasDot = cleaned.includes('.');
     const hasComma = cleaned.includes(',');
 
@@ -42,8 +44,8 @@ export function parseAmount(rawStr) {
             : cleaned.replace(',', '.');
     }
 
-    const parsedVal = parseFloat(cleaned);
-    return isNaN(parsedVal) ? NaN : parsedVal * multiplier;
+    const numericValue = parseFloat(cleaned);
+    return isNaN(numericValue) ? NaN : numericValue * multiplier;
 }
 
 export function parseCurrencyMatch(text) {

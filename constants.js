@@ -6,9 +6,9 @@ export const API_URL = 'https://api.frankfurter.dev/v2/rates';
 export const CURRENCY_MAP = {
     '$': 'USD', '€': 'EUR', '£': 'GBP', '¥': 'JPY', '₹': 'INR', '₽': 'RUB',
     '֏': 'AMD', 'zł': 'PLN', 'ZŁ': 'PLN', '₸': 'KZT', '₴': 'UAH', '₾': 'GEL',
-    '฿': 'THB', '₪': 'ILS', '₩': 'KRW', '₫': 'VND', '₦': 'NGN', '₱': 'PHP',
+    '฿': 'THB', 'bat': 'THB', 'бат': 'THB', '₪': 'ILS', '₩': 'KRW', '₫': 'VND', '₦': 'NGN', '₱': 'PHP',
     '₲': 'PYG', '₡': 'CRC', '₺': 'TRY', '₭': 'LAK', '₮': 'MNT', '៛': 'KHR',
-    'руб': 'RUB', 'руб.': 'RUB', 'евро': 'EUR', 'грн': 'UAH', 'дин.': 'RSD', 'дин': 'RSD',
+    'руб': 'RUB', 'руб.': 'RUB', 'р.': 'RUB', 'р': 'RUB', 'евро': 'EUR', 'грн': 'UAH', 'дин.': 'RSD', 'дин': 'RSD',
     'din': 'RSD', 'DIN': 'RSD', 'динар': 'RSD', 'РСД': 'RSD', 'лв': 'BGN',
     'lei': 'RON', 'Ft': 'HUF', 'Kč': 'CZK', 'Rp': 'IDR', 'RM': 'MYR',
     'R$': 'BRL', 'C$': 'CAD', 'A$': 'AUD', 'HK$': 'HKD', 'NT$': 'TWD',
@@ -68,16 +68,17 @@ export const LANG_TO_CURRENCY = {
 const sortedKeys = Object.keys(CURRENCY_MAP).sort((a, b) => b.length - a.length);
 const symbolsPattern = sortedKeys.map(escapeRegExp).join('|');
 
-const numPattern = `[\\d\\s.,]+[kKmMbB]?`;
+const numPattern = `[\\d\\s.,]+[kKmMbBкКмМбБ]?`;
 
 const leadingRange = `(?:(${symbolsPattern})\\s*(${numPattern})\\s*(?:[-–—]|to)\\s*(?:${symbolsPattern}\\s*)?(${numPattern}))`;
 const trailingRange = `(?:(${numPattern})\\s*(?:${symbolsPattern}\\s*)?(?:[-–—]|to)\\s*(${numPattern})\\s*(${symbolsPattern}))`;
 const singleLeading = `(?:(${symbolsPattern})\\s*(${numPattern}))`;
 const singleTrailing = `(?:(${numPattern})\\s*(${symbolsPattern}))`;
 
+// Added 'u' (Unicode) flag alongside 'i'
 export const CURRENCY_REGEX = new RegExp(
     `${leadingRange}|${trailingRange}|${singleLeading}|${singleTrailing}`,
-    'i'
+    'iu'
 );
 
 export const UNIQUE_CURRENCIES = [...new Set(Object.values(CURRENCY_MAP))].sort();
