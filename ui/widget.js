@@ -14,6 +14,7 @@ export class Widget {
         this.searchInput = null;
         this.resultBox = null;
         this.listContainer = null;
+        this.footer = null;
     }
 
     render() {
@@ -54,7 +55,7 @@ export class Widget {
         this.menu.id = 'cc-widget-menu';
         Object.assign(this.menu.style, {
             display: 'none', position: 'absolute', bottom: '60px', right: '0',
-            width: '210px', maxHeight: '300px', backgroundColor: '#1e293b',
+            width: '230px', maxHeight: '350px', backgroundColor: '#1e293b',
             borderRadius: '8px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
             overflow: 'hidden', flexDirection: 'column', border: '1px solid #334155'
         });
@@ -76,13 +77,47 @@ export class Widget {
         });
 
         this.listContainer = document.createElement('div');
-        Object.assign(this.listContainer.style, { overflowY: 'auto', maxHeight: '200px' });
+        Object.assign(this.listContainer.style, { overflowY: 'auto', maxHeight: '180px' });
 
         this.populateList();
+        this._createFooter();
 
         this.menu.appendChild(this.searchInput);
         this.menu.appendChild(this.resultBox);
         this.menu.appendChild(this.listContainer);
+        this.menu.appendChild(this.footer);
+    }
+
+    _createFooter() {
+        this.footer = document.createElement('div');
+        this.footer.id = 'cc-widget-footer';
+        Object.assign(this.footer.style, {
+            padding: '8px 10px',
+            backgroundColor: '#0f172a',
+            borderTop: '1px solid #334155',
+            textAlign: 'center',
+            fontSize: '11px',
+            color: '#94a3b8'
+        });
+
+        const text = document.createTextNode('Have you found an issue? ');
+
+        const link = document.createElement('a');
+        link.href = 'https://example.com/feedback';
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = 'Click here.';
+        Object.assign(link.style, {
+            color: '#38bdf8',
+            textDecoration: 'none',
+            fontWeight: 'bold'
+        });
+
+        link.addEventListener('mouseenter', () => link.style.textDecoration = 'underline');
+        link.addEventListener('mouseleave', () => link.style.textDecoration = 'none');
+
+        this.footer.appendChild(text);
+        this.footer.appendChild(link);
     }
 
     populateList(filter = '') {
