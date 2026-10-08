@@ -20,6 +20,9 @@
       "matches": [
         "<all_urls>"
       ],
+      "exclude_matches": [
+        "https://www.youtube.com/*"
+      ],
       "js": [
         "loader.js"
       ]
