@@ -6,6 +6,8 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 - This extension helps users convert one currency to another in real time.
 
 ## How it looks
+![](https://i.postimg.cc/MZtfKWw0/Screenshot-at-Oct-09-16-54-09.png)
+
 ![](https://i.postimg.cc/HLnstpnQ/Screenshot-at-Sep-02-17-44-02.png)
 
 ![](https://i.postimg.cc/x1x98WRF/Screenshot-at-Sep-02-17-44-20.png)
