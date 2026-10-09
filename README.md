@@ -10,7 +10,7 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 
 ![](https://i.postimg.cc/x1x98WRF/Screenshot-at-Sep-02-17-44-20.png)
 
-![](https://i.postimg.cc/yxHH2B1R/Screenshot-at-Sep-02-17-44-34.png)
+![](https://i.postimg.cc/Njn1GQ1b/Screenshot-at-Oct-09-16-52-13.png)
 
 ![](https://i.postimg.cc/05mpSP3c/Screenshot-at-Sep-25-06-41-17.png)
 
