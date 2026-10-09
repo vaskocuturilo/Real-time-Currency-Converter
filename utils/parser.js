@@ -52,7 +52,7 @@ export function parseCurrencyMatch(text) {
     const match = text.match(CURRENCY_REGEX);
     if (!match) return null;
 
-    // Group 1, 2, 3: Leading Range ($46k - $80.5k or $46k - 80.5k)
+    // Group 1, 2, 3: Leading Range ($100 - $200 / od $100 do $200)
     if (match[1] && match[2] && match[3]) {
         const symbol = match[1];
         const amt1 = parseAmount(match[2]);
@@ -62,6 +62,7 @@ export function parseCurrencyMatch(text) {
         }
     }
 
+    // Group 4, 5, 6: Trailing Range (100 - 200 RSD / od 8000 zł do 20000 zł)
     if (match[4] && match[5] && match[6]) {
         const symbol = match[6];
         const amt1 = parseAmount(match[4]);
@@ -71,6 +72,7 @@ export function parseCurrencyMatch(text) {
         }
     }
 
+    // Group 7, 8: Leading Single ($100)
     if (match[7] && match[8]) {
         const symbol = match[7];
         const amt = parseAmount(match[8]);
@@ -79,6 +81,7 @@ export function parseCurrencyMatch(text) {
         }
     }
 
+    // Group 9, 10: Trailing Single (100 zł)
     if (match[9] && match[10]) {
         const symbol = match[10];
         const amt = parseAmount(match[9]);
