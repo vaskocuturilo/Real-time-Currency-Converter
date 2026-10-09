@@ -68,19 +68,15 @@ export const LANG_TO_CURRENCY = {
 const sortedKeys = Object.keys(CURRENCY_MAP).sort((a, b) => b.length - a.length);
 const symbolsPattern = sortedKeys.map(escapeRegExp).join('|');
 
-// Precise number pattern without trailing space consumption
 const numPattern = String.raw`\d+(?:[\s.,]\d+)*[kKmMbBкКмМбБ]?`;
 
 const rangePrefix = String.raw`(?:(?:od|from|от)\s+)?`;
 const rangeSep = String.raw`(?:\s*[-–—]\s*|\s+\b(?:do|to|до)\b\s*)`;
 
-// 1. Leading currency ranges: "$100 - $200", "od $100 do $200"
 const leadingRange = String.raw`(?:${rangePrefix}(${symbolsPattern})\s*(${numPattern})${rangeSep}(?:${symbolsPattern}\s*)?(${numPattern}))`;
 
-// 2. Trailing currency ranges: "100 - 200 RSD", "od 8000 zł do 20000 zł"
 const trailingRange = String.raw`(?:${rangePrefix}(${numPattern})\s*(?:${symbolsPattern}\s*)?${rangeSep}(${numPattern})\s*(${symbolsPattern}))`;
 
-// 3. Single value patterns
 const leadingSingle = String.raw`(?:(${symbolsPattern})\s*(${numPattern}))`;
 const trailingSingle = String.raw`(?:(${numPattern})\s*(${symbolsPattern}))`;
 
