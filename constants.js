@@ -4,15 +4,23 @@ export const CACHE_TTL_MS = 3600 * 1000;
 export const API_URL = 'https://api.frankfurter.dev/v2/rates';
 
 export const CURRENCY_MAP = {
-    '$': 'USD', '€': 'EUR', '£': 'GBP', '¥': 'JPY', '₹': 'INR', '₽': 'RUB',
-    '֏': 'AMD', 'zł': 'PLN', 'ZŁ': 'PLN', '₸': 'KZT', '₴': 'UAH', '₾': 'GEL',
-    '฿': 'THB', 'bat': 'THB', 'бат': 'THB', '₪': 'ILS', '₩': 'KRW', '₫': 'VND', '₦': 'NGN', '₱': 'PHP',
-    '₲': 'PYG', '₡': 'CRC', '₺': 'TRY', '₭': 'LAK', '₮': 'MNT', '៛': 'KHR',
-    'руб': 'RUB', 'руб.': 'RUB', 'р.': 'RUB', 'р': 'RUB', 'евро': 'EUR', 'грн': 'UAH', 'дин.': 'RSD', 'дин': 'RSD',
-    'din': 'RSD', 'DIN': 'RSD', 'динар': 'RSD', 'РСД': 'RSD', 'лв': 'BGN',
-    'lei': 'RON', 'Ft': 'HUF', 'Kč': 'CZK', 'Rp': 'IDR', 'RM': 'MYR',
-    'R$': 'BRL', 'C$': 'CAD', 'A$': 'AUD', 'HK$': 'HKD', 'NT$': 'TWD',
-    'NZ$': 'NZD', 'RD$': 'DOP', 'S$': 'SGD',
+    '$': 'USD', 'доллар': 'USD', '€': 'EUR', 'евро': 'EUR', '£': 'GBP', 'фунт': 'GBP', '円': 'JPY', '₹': 'INR', '₽': 'RUB',
+    '֏': 'AMD', 'драм': 'AMD', 'zł': 'PLN', 'ZŁ': 'PLN', '₸': 'KZT', 'тенге': 'KZT', 'тг': 'KZT', '₴': 'UAH', '₾': 'GEL', 'лари': 'GEL', '₼': 'AZN', 'ман': 'AZN',
+    '฿': 'THB', 'bat': 'THB', 'бат': 'THB', '₪': 'ILS', '₩': 'KRW', '₫': 'VND', '₦': 'NGN', '₱': 'PHP', '⃀': 'KGS', 'сом': 'KGS',
+    '₲': 'PYG', '₡': 'CRC', '₺': 'TRY', 'лир': 'TRY', '₭': 'LAK', '₮': 'MNT', 'тугрик': 'MNT', 'тугриков': 'MNT', '៛': 'KHR',
+    'руб': 'RUB', 'руб.': 'RUB', 'р.': 'RUB', 'р': 'RUB', 'грн': 'UAH', 'дин.': 'RSD', 'дин': 'RSD', '¥': 'CNY', 'юан': 'CNY',
+    'din': 'RSD', 'DIN': 'RSD', 'динар': 'RSD', 'РСД': 'RSD', 'лв': 'BGN', 'Dh': 'MAD', 'Dh': 'MAD', '.د.م': 'MAD', 'с': 'TJS',
+    'lei': 'RON', 'Ft': 'HUF', 'Kč': 'CZK', 'крон': 'CZK', 'Rp': 'IDR', 'RM': 'MYR', 'сомони': 'TJS', '⃃': 'AED', 'дирхам': 'AED', 'UAE': 'AED',
+    'R$': 'BRL', 'C$': 'CAD', 'A$': 'AUD', 'HK$': 'HKD', 'NT$': 'TWD', 'Dirham': 'AED', 'UAE Dirham': 'AED', 'дрх': 'AED',
+    'NZ$': 'NZD', 'RD$': 'DOP', 'S$': 'SGD', '₫': 'VND', 'донг': 'VND', '₩': 'KRW', 'вон': 'KRW', 'won': 'KRW', 'Ft': 'HUF',
+    'RM': 'MYR', 'ринггит': 'MYR', 'ringgit': 'MYR', '₪': 'ILS', 'шек': 'ILS', 'shekel': 'ILS', 'sheqel': 'ILS',
+    'forint': 'HUF', 'форинт': 'HUF', '₨': 'LKR', 'රු': 'LKR', '௹': 'LKR', 'Sri Lanka Rupee': 'LKR', 'рупий': 'LKR',
+    'C$': 'CAD', 'канадский доллар': 'CAD', 'Canadian Dollar': 'CAD', 'A$': 'AUD', 'Australian Dollar': 'AUD',
+    'австралийский доллар': 'AUD', 'MX$': 'MXN', 'песо': 'MXN', 'Mexican peso': 'MXN', 'LE': 'EGP', 'Egyptian Pound': 'EGP',
+    'египетский фунт': 'EGP', 'so‘m': 'UZS', 'сўм': 'UZS', 'сум': 'UZS', 'R': 'ZAR', 'рэнд': 'ZAR', 'ранд': 'ZAR',
+    '⃂': 'MVR', 'руфия': 'MVR', 'мальдивская руфия': 'MVR', 'rufiyaa': 'MVR', 'L': 'ALL', 'лек': 'ALL', 'lek': 'ALL',
+    'Arg$': 'ARS', 'Argentine Peso': 'ARS', 'Аргентинское песо': 'ARS', 'индонезийская рупия': 'IDR', 'лей': 'MDL', 'leu': 'MDL',
+    'S$': 'SGD',
 
     'AED': 'AED', 'AFN': 'AFN', 'ALL': 'ALL', 'AMD': 'AMD', 'ANG': 'ANG', 'AOA': 'AOA',
     'ARS': 'ARS', 'AUD': 'AUD', 'AWG': 'AWG', 'AZN': 'AZN', 'BAM': 'BAM', 'BBD': 'BBD',
@@ -68,7 +76,7 @@ export const LANG_TO_CURRENCY = {
 const sortedKeys = Object.keys(CURRENCY_MAP).sort((a, b) => b.length - a.length);
 const symbolsPattern = sortedKeys.map(escapeRegExp).join('|');
 
-const numPattern = String.raw`\d+(?:[\s.,]\d+)*[kKmMbBкКмМбБ]?`;
+const numPattern = String.raw`\d+(?:[\s.,]\d+)*\s*(?:млн|mln|[kKmMbBкКмМбБ])?`;
 
 const rangePrefix = String.raw`(?:(?:od|from|от)\s+)?`;
 const rangeSep = String.raw`(?:\s*[-–—]\s*|\s+\b(?:do|to|до)\b\s*)`;
