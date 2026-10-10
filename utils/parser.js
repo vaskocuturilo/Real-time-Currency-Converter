@@ -1,5 +1,3 @@
-// utils/parser.js
-
 import { CURRENCY_REGEX } from '../constants.js';
 
 export function escapeRegExp(str) {
@@ -9,21 +7,26 @@ export function escapeRegExp(str) {
 const SUFFIX_MULTIPLIERS = {
     'k': 1e3, 'к': 1e3,
     'm': 1e6, 'м': 1e6,
+    'mln': 1e6, 'млн': 1e6,
     'b': 1e9, 'б': 1e9
 };
 
 export function parseAmount(rawStr) {
     if (!rawStr) return NaN;
 
-    const suffixMatch = rawStr.match(/([kKmMbBкКмМбБ])\s*$/u);
+    // 1. Extract trailing suffix (matching with optional leading space)
+    const suffixMatch = rawStr.match(/\s*(млн|mln|[kKmMbBкКмМбБ])\s*$/iu);
     const suffix = suffixMatch ? suffixMatch[1].toLowerCase() : null;
     const multiplier = suffix ? SUFFIX_MULTIPLIERS[suffix] : 1;
 
-    let cleaned = rawStr.replace(/[kKmMbBкКмМбБ\s\u00A0]/gu, '');
+    // 2. Remove the suffix, then strip all remaining spaces and non-breaking spaces
+    let cleaned = rawStr.replace(/\s*(млн|mln|[kKmMbBкКмМбБ])\s*$/iu, '');
+    cleaned = cleaned.replace(/[\s\u00A0]/gu, '');
     cleaned = cleaned.replace(/^[.,]+|[.,]+$/g, '');
 
     if (!cleaned) return NaN;
 
+    // 3. Handle decimal and thousand separators
     const hasDot = cleaned.includes('.');
     const hasComma = cleaned.includes(',');
 
