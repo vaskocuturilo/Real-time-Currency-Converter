@@ -1,0 +1,27 @@
+{
+  "name": "real-time-currency-converter",
+  "version": "1.0.0",
+  "description": "A lightweight browser add‑on that instantly converts any currency value on a webpage to your preferred currency. It automatically detects amounts, applies live exchange rates, and updates conversions in place—making price comparison and international browsing effortless across Google Chrome, Firefox, and Edge.",
+  "main": "background.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vaskocuturilo/Real-time-Currency-Converter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/vaskocuturilo/Real-time-Currency-Converter/issues"
+  },
+  "homepage": "https://github.com/vaskocuturilo/Real-time-Currency-Converter#readme",
+  "devDependencies": {
+    "vitest": "^5.0.3"
+  }
+}

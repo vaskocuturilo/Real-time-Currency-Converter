@@ -1,5 +1,5 @@
 // tests/parser.test.js
-
+import { describe, test, expect } from 'vitest';
 import { parseCurrencyMatch } from '../utils/parser.js';
 
 describe('parseCurrencyMatch', () => {
