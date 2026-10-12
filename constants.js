@@ -4,7 +4,7 @@ export const CACHE_TTL_MS = 3600 * 1000;
 export const API_URL = 'https://api.frankfurter.dev/v2/rates';
 
 export const CURRENCY_MAP = {
-    '$': 'USD', 'доллар': 'USD', '€': 'EUR', 'евро': 'EUR', '£': 'GBP', 'фунт': 'GBP', '円': 'JPY', '₹': 'INR', '₽': 'RUB',
+    '$': 'USD', 'доллар': 'USD', '€': 'EUR', 'евро': 'EUR', 'evro': 'EUR', 'euro': 'EUR', '£': 'GBP', 'фунт': 'GBP', '円': 'JPY', '₹': 'INR', '₽': 'RUB',
     '֏': 'AMD', 'драм': 'AMD', 'zł': 'PLN', 'ZŁ': 'PLN', '₸': 'KZT', 'тенге': 'KZT', 'тг': 'KZT', '₴': 'UAH', '₾': 'GEL', 'лари': 'GEL', '₼': 'AZN', 'ман': 'AZN',
     '฿': 'THB', 'bat': 'THB', 'бат': 'THB', '₪': 'ILS', '₩': 'KRW', '₫': 'VND', '₦': 'NGN', '₱': 'PHP', '⃀': 'KGS', 'сом': 'KGS',
     '₲': 'PYG', '₡': 'CRC', '₺': 'TRY', 'лир': 'TRY', '₭': 'LAK', '₮': 'MNT', 'тугрик': 'MNT', 'тугриков': 'MNT', '៛': 'KHR',
