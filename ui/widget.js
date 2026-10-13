@@ -178,7 +178,6 @@ export class Widget {
             initialX = rect.left;
             initialY = rect.top;
 
-            // Switch to explicit top/left positioning for smooth dragging
             this.container.style.bottom = 'auto';
             this.container.style.right = 'auto';
             this.container.style.top = `${initialY}px`;
@@ -191,7 +190,7 @@ export class Widget {
 
                 if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
                     isDragging = true;
-                    this.menu.style.display = 'none'; // Hide menu while dragging
+                    this.menu.style.display = 'none';
                 }
 
                 if (isDragging) {
