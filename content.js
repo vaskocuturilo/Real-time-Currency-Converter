@@ -8,10 +8,20 @@ import { Widget } from './ui/widget.js';
 async function initApp() {
   const targetCurrency = await currencyService.getTargetCurrency();
 
-  const widget = new Widget(targetCurrency, (newCurrency) => {
-    Tooltip.remove();
+  chrome.storage.local.get(['targetCurrency', 'widgetPosition'], (res) => {
+    let activeCurrency = res.targetCurrency;
+
+    if (!activeCurrency) {
+      activeCurrency = detectDefaultCurrency();
+      chrome.storage.local.set({ targetCurrency: activeCurrency });
+    }
+
+    const widget = new Widget(activeCurrency, (newCurrency) => {
+      console.log('Currency changed to:', newCurrency);
+    });
+
+    widget.render(res.widgetPosition);
   });
-  widget.render();
 
   document.addEventListener('mousedown', (e) => {
     if (e.target.id !== Tooltip.ID && !e.target.closest('#cc-widget-container')) {
