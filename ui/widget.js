@@ -168,7 +168,6 @@ export class Widget {
         let startX, startY;
         let initialX, initialY;
 
-        // --- DRAG AND DROP LOGIC ---
         this.button.addEventListener('mousedown', (e) => {
             if (e.button !== 0) return; // Left click only
             isDragging = false;
@@ -226,7 +225,6 @@ export class Widget {
             window.addEventListener('mouseup', onMouseUp);
         });
 
-        // Prevent toggle if the user just dragged the button
         this.button.addEventListener('click', (e) => {
             if (isDragging) {
                 e.stopImmediatePropagation();
