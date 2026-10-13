@@ -17,15 +17,27 @@ export class Widget {
         this.footer = null;
     }
 
-    render() {
+    render(savedPosition = null) {
         if (document.getElementById('cc-widget-container')) return;
 
         this.container = document.createElement('div');
         this.container.id = 'cc-widget-container';
-        Object.assign(this.container.style, {
-            position: 'fixed', bottom: '20px', right: '20px',
-            zIndex: '2147483647', fontFamily: 'system-ui, -apple-system, sans-serif'
-        });
+
+        const containerStyle = {
+            position: 'fixed',
+            zIndex: '2147483647',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+        };
+
+        if (savedPosition && savedPosition.top && savedPosition.left) {
+            containerStyle.top = savedPosition.top;
+            containerStyle.left = savedPosition.left;
+        } else {
+            containerStyle.bottom = '20px';
+            containerStyle.right = '20px';
+        }
+
+        Object.assign(this.container.style, containerStyle);
 
         this._createButton();
         this._createMenu();
@@ -44,9 +56,9 @@ export class Widget {
         Object.assign(this.button.style, {
             width: '50px', height: '50px', borderRadius: '50%',
             backgroundColor: '#0f172a', color: '#ffffff', border: '2px solid #38bdf8',
-            fontWeight: 'bold', fontSize: '13px', cursor: 'pointer',
+            fontWeight: 'bold', fontSize: '13px', cursor: 'grab',
             boxShadow: '0 4px 14px rgba(0,0,0,0.3)', display: 'flex',
-            alignItems: 'center', justifyContent: 'center'
+            alignItems: 'center', justifyContent: 'center', userSelect: 'none'
         });
     }
 
@@ -152,6 +164,80 @@ export class Widget {
     }
 
     _bindEvents() {
+        let isDragging = false;
+        let startX, startY;
+        let initialX, initialY;
+
+        // --- DRAG AND DROP LOGIC ---
+        this.button.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return; // Left click only
+            isDragging = false;
+            startX = e.clientX;
+            startY = e.clientY;
+
+            const rect = this.container.getBoundingClientRect();
+            initialX = rect.left;
+            initialY = rect.top;
+
+            // Switch to explicit top/left positioning for smooth dragging
+            this.container.style.bottom = 'auto';
+            this.container.style.right = 'auto';
+            this.container.style.top = `${initialY}px`;
+            this.container.style.left = `${initialX}px`;
+            this.button.style.cursor = 'grabbing';
+
+            const onMouseMove = (moveEvent) => {
+                const dx = moveEvent.clientX - startX;
+                const dy = moveEvent.clientY - startY;
+
+                if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+                    isDragging = true;
+                    this.menu.style.display = 'none'; // Hide menu while dragging
+                }
+
+                if (isDragging) {
+                    const newLeft = initialX + dx;
+                    const newTop = initialY + dy;
+
+                    const maxX = window.innerWidth - this.container.offsetWidth;
+                    const maxY = window.innerHeight - this.container.offsetHeight;
+
+                    this.container.style.left = `${Math.max(0, Math.min(newLeft, maxX))}px`;
+                    this.container.style.top = `${Math.max(0, Math.min(newTop, maxY))}px`;
+                }
+            };
+
+            const onMouseUp = () => {
+                this.button.style.cursor = 'grab';
+                window.removeEventListener('mousemove', onMouseMove);
+                window.removeEventListener('mouseup', onMouseUp);
+
+                if (isDragging) {
+                    chrome.storage.local.set({
+                        widgetPosition: {
+                            top: this.container.style.top,
+                            left: this.container.style.left
+                        }
+                    });
+                }
+            };
+
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+        });
+
+        // Prevent toggle if the user just dragged the button
+        this.button.addEventListener('click', (e) => {
+            if (isDragging) {
+                e.stopImmediatePropagation();
+                return;
+            }
+            e.stopPropagation();
+            const isVisible = this.menu.style.display === 'flex';
+            this.menu.style.display = isVisible ? 'none' : 'flex';
+            if (!isVisible) this.searchInput.focus();
+        });
+
         this.searchInput.addEventListener('input', async (e) => {
             const rawValue = e.target.value.trim();
 
@@ -183,13 +269,6 @@ export class Widget {
 
             this.resultBox.style.display = 'none';
             this.populateList(rawValue);
-        });
-
-        this.button.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isVisible = this.menu.style.display === 'flex';
-            this.menu.style.display = isVisible ? 'none' : 'flex';
-            if (!isVisible) this.searchInput.focus();
         });
 
         document.addEventListener('click', (e) => {
