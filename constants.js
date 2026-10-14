@@ -20,7 +20,7 @@ export const CURRENCY_MAP = {
     'египетский фунт': 'EGP', 'so‘m': 'UZS', 'сўм': 'UZS', 'сум': 'UZS', 'R': 'ZAR', 'рэнд': 'ZAR', 'ранд': 'ZAR',
     '⃂': 'MVR', 'руфия': 'MVR', 'мальдивская руфия': 'MVR', 'rufiyaa': 'MVR', 'L': 'ALL', 'лек': 'ALL', 'lek': 'ALL',
     'Arg$': 'ARS', 'Argentine Peso': 'ARS', 'Аргентинское песо': 'ARS', 'индонезийская рупия': 'IDR', 'лей': 'MDL', 'leu': 'MDL',
-    'S$': 'SGD',
+    'S$': 'SGD', 'BAM': 'KM', 'convertible mark': 'KM',
 
     'AED': 'AED', 'AFN': 'AFN', 'ALL': 'ALL', 'AMD': 'AMD', 'ANG': 'ANG', 'AOA': 'AOA',
     'ARS': 'ARS', 'AUD': 'AUD', 'AWG': 'AWG', 'AZN': 'AZN', 'BAM': 'BAM', 'BBD': 'BBD',
@@ -47,7 +47,7 @@ export const CURRENCY_MAP = {
     'TRY': 'TRY', 'TTD': 'TTD', 'TWD': 'TWD', 'TZS': 'TZS', 'UAH': 'UAH', 'UGX': 'UGX',
     'USD': 'USD', 'UYU': 'UYU', 'UZS': 'UZS', 'VES': 'VES', 'VND': 'VND', 'VUV': 'VUV',
     'WST': 'WST', 'XAF': 'XAF', 'XCD': 'XCD', 'XOF': 'XOF', 'XPF': 'XPF', 'YER': 'YER',
-    'ZAR': 'ZAR', 'ZMW': 'ZMW', 'ZWG': 'ZWG'
+    'ZAR': 'ZAR', 'ZMW': 'ZMW', 'ZWG': 'ZWG', 'KM': 'KM',
 };
 
 export const COUNTRY_TO_CURRENCY = {
