@@ -76,7 +76,7 @@ export const LANG_TO_CURRENCY = {
 const sortedKeys = Object.keys(CURRENCY_MAP).sort((a, b) => b.length - a.length);
 const symbolsPattern = sortedKeys.map(escapeRegExp).join('|');
 
-const numPattern = String.raw`\d+(?:[\s.,]\d+)*\s*(?:млн|mln|[kKmMbBкКмМбБ])?`;
+const numPattern = String.raw`\d+(?:[\s.,]\d+)*\s*(?:млн|mln|[kKmMbBкКмМбБ]\b)?`;
 
 const rangePrefix = String.raw`(?:(?:od|from|от)\s+)?`;
 const rangeSep = String.raw`(?:\s*[-–—]\s*|\s+\b(?:do|to|до)\b\s*)`;
