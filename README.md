@@ -2,12 +2,15 @@
 
 A lightweight browser add‑on that instantly converts any currency value on a webpage to your preferred currency. It automatically detects amounts, applies live exchange rates, and updates conversions in place—making price comparison and international browsing effortless across Google Chrome, Firefox, and Edge.
 
+### Specifications:
+- Exchange rates for 217 currencies
+- Update daily information from 3 central banks and official sources 
+
 ## How it looks
 ![](https://i.postimg.cc/MZtfKWw0/Screenshot-at-Oct-09-16-54-09.png)
 
 ### How it works.
 - This extension helps users convert one currency to another in real time.
-
 
 ![](https://i.postimg.cc/HLnstpnQ/Screenshot-at-Sep-02-17-44-02.png)
 
