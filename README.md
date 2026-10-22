@@ -23,3 +23,14 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 ![](https://i.postimg.cc/L5kThGHP/Screenshot-at-Oct-09-16-49-39.png)
 
 ![](https://i.postimg.cc/J4mxS7qh/Screenshot-at-Oct-09-16-50-03.png)
+
+      [  Bank Feeds ]
+              │ (Daily Cron Job)
+              ▼
+    [ Database / Memory Cache ] 
+              │
+              ▼
+     [ REST API (Go) ]
+              │
+              ▼
+     [ Chrome Extension ]
