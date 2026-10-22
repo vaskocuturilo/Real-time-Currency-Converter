@@ -47,6 +47,7 @@ export class Widget {
         document.body.appendChild(this.container);
 
         this._bindEvents();
+        this._listenToStorageChanges();
     }
 
     _createButton() {
@@ -161,6 +162,22 @@ export class Widget {
         this.resultBox.style.display = 'none';
         this.populateList();
         if (this.onCurrencyChange) this.onCurrencyChange(code);
+    }
+
+    _listenToStorageChanges() {
+        chrome.storage.onChanged.addListener((changes, areaName) => {
+            if (areaName === 'local' && changes.targetCurrency) {
+                const newCurrency = changes.targetCurrency.newValue;
+                if (newCurrency && newCurrency !== this.currentCurrency) {
+                    this.currentCurrency = newCurrency;
+                    this.button.textContent = newCurrency;
+                    this.menu.style.display = 'none';
+                    this.searchInput.value = '';
+                    this.resultBox.style.display = 'none';
+                    this.populateList();
+                }
+            }
+        });
     }
 
     _bindEvents() {
