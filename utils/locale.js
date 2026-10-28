@@ -17,7 +17,7 @@ export function detectDefaultCurrency() {
             return LANG_TO_CURRENCY[primaryLang];
         }
     } catch (err) {
-        console.error('Failed to detect default currency from locale:', err);
+        console.error('Failed to detect currency from browser locale:', err);
     }
     return 'USD';
 }
