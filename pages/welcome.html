@@ -76,15 +76,6 @@
       line-height: 1.5;
     }
 
-    .badge {
-      background: #00b894;
-      color: white;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 10px;
-      vertical-align: middle;
-    }
-
     #saveBtn {
       background: var(--primary);
       color: white;
@@ -137,27 +128,33 @@
       font-style: italic;
     }
 
-    /* Color Coding */
     .manual {
       border-left: 5px solid #6c5ce7;
     }
 
-    /* Purple */
     .pencil {
       border-left: 5px solid #00b894;
     }
 
-    /* Green */
     .bulk {
       border-left: 5px solid #0a66c2;
     }
 
-    /* LinkedIn Blue */
+    .currency-setup {
+      border-left: 5px solid #e17055;
+    }
 
-    h3 {
-      font-size: 15px;
-      margin: 0;
-      color: #2d3436;
+    #currencySelect {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+      outline: none;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -166,42 +163,49 @@
   <div class="container">
     <div class="card">
       <h1>🚀 Get Started with Real Time Currency Converter</h1>
-      <p class="subtitle">Choose the method that works best for you:</p>
+      <p class="subtitle">Choose your preferred default currency and review how it works:</p>
+
+      <!-- Currency Setup Box -->
+      <div class="method-box currency-setup">
+        <h3>🌐 Default Target Currency</h3>
+        <p class="method-desc">We auto-detected your region's currency, but you can pick any other.</p>
+        <select id="currencySelect">
+          <!-- Populated dynamically via welcome.js -->
+        </select>
+      </div>
 
       <div class="method-box manual">
         <h3>✍️ Method 1: Manual Add (Instant)</h3>
         <p class="method-desc">Have a specific name in mind? Add it directly.</p>
         <ol>
-          <li>Open the extension popup by clicking the 🧩 black icon with a short currency name (In the lower right
-            corner)</li>
-          <li>Type the <strong>amount</strong> with currecny name or icon into the input field.</li>
+          <li>Open the extension popup by clicking the floating widget in the lower right corner.</li>
+          <li>Type the <strong>amount</strong> with currency name or icon into the input field.</li>
           <li>Currency conversion <kbd>will be performed</kbd> automatically.</li>
         </ol>
       </div>
 
       <div class="method-box pencil">
         <h3>✏️ Method 2: Highlighting Mode (Visual)</h3>
-        <p class="method-desc">Choose conversion currency from the drop-down list</p>
+        <p class="method-desc">Highlight any amount on any webpage to see the conversion.</p>
         <ol>
-          <li>Find your amount with currency <strong>on the browser page</strong> highlight it.</li>
-          <li>It will appear<strong>hint</strong> with the amount that was converted.</li>
+          <li>Find an amount with currency <strong>on the browser page</strong> and highlight it.</li>
+          <li>A tooltip will appear showing the converted amount instantly.</li>
         </ol>
       </div>
 
       <div class="method-box bulk">
         <h3>📂 Extension supports all currencies in the world</h3>
-        <p class="method-desc">Works with all types of data provision:</p>
+        <p class="method-desc">Works with ranges, suffixes, and formats like:</p>
         <ol>
-          <li><strong>1000 EURO</strong> -> <strong>1000€</strong> -> <strong>1000 Euro</strong>.</li>
-          <li><strong>1K Euro</strong> -> <strong>1K - 2K €</strong> -> <strong>1k - 2k Euro</strong>.</li>
-          <li><strong>1000 евро</strong> -> <strong>1K - 2K ЕВРО</strong> -> <strong>1k - 2k Евро</strong>.</li>
+          <li><strong>1000 EURO</strong> -> <strong>1000€</strong></li>
+          <li><strong>1K - 2K €</strong> -> <strong>от 1 млн до 2 млн ₽</strong></li>
         </ol>
       </div>
     </div>
 
     <button id="saveBtn">Go to Start</button>
   </div>
-  <script src="welcome.js"></script>
+  <script type="module" src="welcome.js"></script>
 </body>
 
 </html>
