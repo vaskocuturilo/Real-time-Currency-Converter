@@ -4,6 +4,7 @@ import { detectDefaultCurrency } from '../utils/locale.js';
 document.addEventListener('DOMContentLoaded', () => {
     const selectElement = document.getElementById('currencySelect');
 
+    // Populate currencies alphabetically
     UNIQUE_CURRENCIES.forEach(code => {
         const option = document.createElement('option');
         option.value = code;
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         selectElement.appendChild(option);
     });
 
+    // Detect and select regional currency fallback
     const defaultCurrency = detectDefaultCurrency();
     if (defaultCurrency && UNIQUE_CURRENCIES.includes(defaultCurrency)) {
         selectElement.value = defaultCurrency;
@@ -20,19 +22,24 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('saveBtn').addEventListener('click', async () => {
     const selectedCurrency = document.getElementById('currencySelect').value;
 
-    const settings = {
+    await chrome.storage.local.set({
         hasSeenOnboarding: true,
         targetCurrency: selectedCurrency
-    };
+    });
 
-    await chrome.storage.local.set(settings);
-
-    document.querySelector('.container').innerHTML = `
-        <div class="card">
-            <h1>🎉 You're All Set!</h1>
-            <p>Your default currency has been saved as <strong>${selectedCurrency}</strong>.</p>
-            <p class="subtitle">This tab will close automatically. You can now use the extension on any webpage!</p>
+    const mainCard = document.getElementById('mainCard');
+    mainCard.innerHTML = `
+        <div class="success-state">
+            <div class="success-icon">🎉</div>
+            <h1>You're All Set!</h1>
+            <p style="margin-top: 12px; color: #94a3b8;">
+                Your default currency is set to <span class="currency-pill">${selectedCurrency}</span>.
+            </p>
+            <p style="margin-top: 24px; font-size: 13px; color: #64748b;">
+                This onboarding tab will close automatically in a moment...
+            </p>
         </div>
     `;
-    setTimeout(() => window.close(), 3000);
+
+    setTimeout(() => window.close(), 2500);
 });

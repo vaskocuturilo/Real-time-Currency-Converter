@@ -128,5 +128,9 @@ describe('parseCurrencyMatch', () => {
         test('returns null for unrecognized currency code', () => {
             expect(parseCurrencyMatch('100 - 200 XYZ')).toBeNull();
         });
+
+        test('returns null for text with false positive prefix characters like "JDK 27 стал"', () => {
+            expect(parseCurrencyMatch('JDK 27 стал')).toBeNull();
+        });
     });
 });
