@@ -3,208 +3,316 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Welcome to Real Time Currency Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Real-Time Currency Converter</title>
   <style>
     :root {
-      --primary: #0a66c2;
-      --bg: #f3f2ef;
-      --card: #ffffff;
-      --text: #191919;
-      --accent: #eef3f8;
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --primary: #38bdf8;
+      --primary-hover: #0284c7;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-purple: #818cf8;
+      --accent-green: #34d399;
+      --accent-amber: #fbbf24;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg);
       color: var(--text);
-      margin: 0;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 40px 20px;
+      line-height: 1.5;
     }
 
     .container {
-      max-width: 600px;
+      max-width: 680px;
       width: 100%;
-      text-align: center;
     }
 
-    .card {
-      background: var(--card);
+    .welcome-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
       padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-      margin-bottom: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 0.4s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+      border-radius: 16px;
+      font-size: 28px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 20px rgba(56, 189, 248, 0.25);
     }
 
     h1 {
-      color: var(--primary);
-      font-size: 24px;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       margin-bottom: 8px;
     }
 
     .subtitle {
-      color: #666;
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    /* Target Currency Configuration Card */
+    .setup-card {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .setup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .setup-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .detected-badge {
+      font-size: 11px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--primary);
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .select-wrapper {
+      position: relative;
+    }
+
+    select {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background-color: var(--card-bg);
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+    }
+
+    .select-chevron {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--text-muted);
+    }
+
+    /* Feature Grid */
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
       margin-bottom: 32px;
     }
 
-    .method-box {
-      text-align: left;
-      background: var(--accent);
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      border-left: 4px solid var(--primary);
-    }
-
-    h3 {
-      margin-top: 0;
-      font-size: 16px;
+    .feature-item {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px 20px;
       display: flex;
-      align-items: center;
-      gap: 8px;
+      gap: 16px;
+      transition: border-color 0.2s, transform 0.2s;
     }
 
-    ol {
-      padding-left: 20px;
-      margin-bottom: 0;
+    .feature-item:hover {
+      border-color: #475569;
+      transform: translateY(-1px);
     }
 
-    li {
-      margin-bottom: 10px;
-      font-size: 14px;
-      line-height: 1.5;
+    .feature-icon {
+      font-size: 22px;
+      line-height: 1;
+      padding-top: 2px;
     }
 
-    #saveBtn {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 14px 32px;
-      border-radius: 24px;
+    .feature-content h3 {
+      font-size: 15px;
       font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.2s, background 0.2s;
+      margin-bottom: 4px;
     }
 
-    #saveBtn:hover {
-      background: #004182;
-      transform: scale(1.02);
+    .feature-content p {
+      font-size: 13px;
+      color: var(--text-muted);
     }
 
     kbd {
-      background: #eee;
-      border-radius: 3px;
-      border: 1px solid #b4b4b4;
-      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-      color: #333;
-      display: inline-block;
+      background: #334155;
+      color: #38bdf8;
+      border-radius: 4px;
+      padding: 2px 6px;
       font-size: 0.85em;
-      font-weight: 700;
-      line-height: 1;
-      padding: 2px 4px;
+      font-family: inherit;
     }
 
-    .method-box {
-      text-align: left;
-      background: #ffffff;
-      padding: 18px;
-      border-radius: 10px;
-      margin-bottom: 16px;
-      border: 1px solid #e0e0e0;
-      transition: transform 0.2s;
+    /* Actions */
+    .actions {
+      text-align: center;
     }
 
-    .method-box:hover {
-      border-color: var(--primary);
-      transform: translateY(-2px);
-    }
-
-    .method-desc {
-      font-size: 13px;
-      color: #666;
-      margin: 4px 0 12px 0;
-      font-style: italic;
-    }
-
-    .manual {
-      border-left: 5px solid #6c5ce7;
-    }
-
-    .pencil {
-      border-left: 5px solid #00b894;
-    }
-
-    .bulk {
-      border-left: 5px solid #0a66c2;
-    }
-
-    .currency-setup {
-      border-left: 5px solid #e17055;
-    }
-
-    #currencySelect {
+    #saveBtn {
       width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #cbd5e1;
-      background: #f8fafc;
-      font-size: 14px;
-      font-weight: 600;
+      background: var(--primary);
       color: #0f172a;
-      outline: none;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
       cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+    }
+
+    #saveBtn:hover {
+      background: #7dd3fc;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+    }
+
+    #saveBtn:active {
+      transform: translateY(0);
+    }
+
+    /* Confirmation Screen */
+    .success-state {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    .success-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+
+    .currency-pill {
+      display: inline-block;
+      background: var(--primary);
+      color: #0f172a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 700;
     }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <div class="card">
-      <h1>🚀 Get Started with Real Time Currency Converter</h1>
-      <p class="subtitle">Choose your preferred default currency and review how it works:</p>
-
-      <!-- Currency Setup Box -->
-      <div class="method-box currency-setup">
-        <h3>🌐 Default Target Currency</h3>
-        <p class="method-desc">We auto-detected your region's currency, but you can pick any other.</p>
-        <select id="currencySelect">
-          <!-- Populated dynamically via welcome.js -->
-        </select>
+    <div class="welcome-card" id="mainCard">
+      <div class="header">
+        <div class="logo-badge">🔲</div>
+        <h1>Welcome to Real-Time Currency Converter</h1>
+        <p class="subtitle">Set your default currency and learn how to get started.</p>
       </div>
 
-      <div class="method-box manual">
-        <h3>✍️ Method 1: Manual Add (Instant)</h3>
-        <p class="method-desc">Have a specific name in mind? Add it directly.</p>
-        <ol>
-          <li>Open the extension popup by clicking the floating widget in the lower right corner.</li>
-          <li>Type the <strong>amount</strong> with currency name or icon into the input field.</li>
-          <li>Currency conversion <kbd>will be performed</kbd> automatically.</li>
-        </ol>
+      <!-- Currency Choice Card -->
+      <div class="setup-card">
+        <div class="setup-header">
+          <div class="setup-title">
+            <span>🌐</span> Default Target Currency
+          </div>
+          <span class="detected-badge">Auto-Detected</span>
+        </div>
+        <div class="select-wrapper">
+          <select id="currencySelect"></select>
+          <span class="select-chevron">▼</span>
+        </div>
       </div>
 
-      <div class="method-box pencil">
-        <h3>✏️ Method 2: Highlighting Mode (Visual)</h3>
-        <p class="method-desc">Highlight any amount on any webpage to see the conversion.</p>
-        <ol>
-          <li>Find an amount with currency <strong>on the browser page</strong> and highlight it.</li>
-          <li>A tooltip will appear showing the converted amount instantly.</li>
-        </ol>
+      <!-- Features Guide -->
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">✨</div>
+          <div class="feature-content">
+            <h3>Highlighting Mode (Instant Tooltip)</h3>
+            <p>Select any text on a web page (e.g. <code>1000 EUR</code>, <code>$50-$100</code>, <code>1,2 млн zł</code>) to instantly see the converted conversion hint.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">🧩</div>
+          <div class="feature-content">
+            <h3>Draggable Corner Widget</h3>
+            <p>Click the floating button in the bottom corner to manually convert custom amounts, change preferences, or drag it anywhere on your screen.</p>
+          </div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-content">
+            <h3>Full Format & Suffix Support</h3>
+            <p>Recognizes ranges (<kbd>1K - 2K €</kbd>), words (<kbd>1000 евро</kbd>), and global symbols (<kbd>zł</kbd>, <kbd>₹</kbd>, <kbd>₽</kbd>, <kbd>₾</kbd>).</p>
+          </div>
+        </div>
       </div>
 
-      <div class="method-box bulk">
-        <h3>📂 Extension supports all currencies in the world</h3>
-        <p class="method-desc">Works with ranges, suffixes, and formats like:</p>
-        <ol>
-          <li><strong>1000 EURO</strong> -> <strong>1000€</strong></li>
-          <li><strong>1K - 2K €</strong> -> <strong>от 1 млн до 2 млн ₽</strong></li>
-        </ol>
+      <!-- Button -->
+      <div class="actions">
+        <button id="saveBtn">Save & Start Converting</button>
       </div>
     </div>
-
-    <button id="saveBtn">Go to Start</button>
   </div>
+
   <script type="module" src="welcome.js"></script>
 </body>
 

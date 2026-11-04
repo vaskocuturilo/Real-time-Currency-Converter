@@ -74,19 +74,25 @@ export const LANG_TO_CURRENCY = {
 };
 
 const sortedKeys = Object.keys(CURRENCY_MAP).sort((a, b) => b.length - a.length);
+
 const symbolsPattern = sortedKeys.map(escapeRegExp).join('|');
+
+const currencyPattern = String.raw`(?<![\p{L}_])(?:${symbolsPattern})(?![\p{L}_])`;
 
 const numPattern = String.raw`\d+(?:[\s.,]\d+)*\s*(?:млн|mln|[kKmMbBкКмМбБ]\b)?`;
 
 const rangePrefix = String.raw`(?:(?:od|from|от)\s+)?`;
 const rangeSep = String.raw`(?:\s*[-–—]\s*|\s+\b(?:do|to|до)\b\s*)`;
 
-const leadingRange = String.raw`(?:${rangePrefix}(${symbolsPattern})\s*(${numPattern})${rangeSep}(?:${symbolsPattern}\s*)?(${numPattern}))`;
+const leadingRange = String.raw`(?:${rangePrefix}(${currencyPattern})\s*(${numPattern})${rangeSep}(?:${currencyPattern}\s*)?(${numPattern}))`;
 
-const trailingRange = String.raw`(?:${rangePrefix}(${numPattern})\s*(?:${symbolsPattern}\s*)?${rangeSep}(${numPattern})\s*(${symbolsPattern}))`;
 
-const leadingSingle = String.raw`(?:(${symbolsPattern})\s*(${numPattern}))`;
-const trailingSingle = String.raw`(?:(${numPattern})\s*(${symbolsPattern}))`;
+const trailingRange = String.raw`(?:${rangePrefix}(${numPattern})\s*(?:${currencyPattern}\s*)?${rangeSep}(${numPattern})\s*(${currencyPattern}))`;
+
+
+const leadingSingle = String.raw`(?:(${currencyPattern})\s*(${numPattern}))`;
+
+const trailingSingle = String.raw`(?:(${numPattern})\s*(${currencyPattern}))`;
 
 export const CURRENCY_REGEX = new RegExp(
     `${leadingRange}|${trailingRange}|${leadingSingle}|${trailingSingle}`,
