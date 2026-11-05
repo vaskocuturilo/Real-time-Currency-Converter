@@ -4,13 +4,13 @@ export const CACHE_TTL_MS = 3600 * 1000;
 export const API_URL = 'https://api.frankfurter.dev/v2/rates';
 
 export const CURRENCY_MAP = {
-    '$': 'USD', 'доллар': 'USD', '€': 'EUR', 'евро': 'EUR', 'evro': 'EUR', 'euro': 'EUR', '£': 'GBP', 'фунт': 'GBP', '円': 'JPY', '₹': 'INR', '₽': 'RUB',
-    '֏': 'AMD', 'драм': 'AMD', 'zł': 'PLN', 'ZŁ': 'PLN', '₸': 'KZT', 'тенге': 'KZT', 'тг': 'KZT', '₴': 'UAH', '₾': 'GEL', 'лари': 'GEL', '₼': 'AZN', 'ман': 'AZN',
-    '฿': 'THB', 'bat': 'THB', 'бат': 'THB', '₪': 'ILS', '₩': 'KRW', '₫': 'VND', '₦': 'NGN', '₱': 'PHP', '⃀': 'KGS', 'сом': 'KGS',
-    '₲': 'PYG', '₡': 'CRC', '₺': 'TRY', 'лир': 'TRY', '₭': 'LAK', '₮': 'MNT', 'тугрик': 'MNT', 'тугриков': 'MNT', '៛': 'KHR',
-    'руб': 'RUB', 'руб.': 'RUB', 'р.': 'RUB', 'р': 'RUB', 'грн': 'UAH', 'дин.': 'RSD', 'дин': 'RSD', '¥': 'CNY', 'юан': 'CNY',
-    'din': 'RSD', 'DIN': 'RSD', 'динар': 'RSD', 'РСД': 'RSD', 'лв': 'BGN', 'Dh': 'MAD', 'Dh': 'MAD', '.د.م': 'MAD', 'с': 'TJS',
-    'lei': 'RON', 'Ft': 'HUF', 'Kč': 'CZK', 'крон': 'CZK', 'Rp': 'IDR', 'RM': 'MYR', 'сомони': 'TJS', '⃃': 'AED', 'дирхам': 'AED', 'UAE': 'AED',
+    '$': 'USD', 'доллар': 'USD', '€': 'EUR', 'евро': 'EUR', 'evro': 'EUR', 'euro': 'EUR', '£': 'GBP', 'фунт': 'GBP', '円': 'JPY',
+    '₹': 'INR', '₽': 'RUB', '֏': 'AMD', 'драм': 'AMD', 'zł': 'PLN', 'ZŁ': 'PLN', '₸': 'KZT', 'тенге': 'KZT', 'тг': 'KZT', '₴': 'UAH',
+    '₾': 'GEL', 'лари': 'GEL', '₼': 'AZN', 'ман': 'AZN', '฿': 'THB', 'bat': 'THB', 'бат': 'THB', '₪': 'ILS', '₩': 'KRW', '₫': 'VND',
+    '₦': 'NGN', '₱': 'PHP', '⃀': 'KGS', 'сом': 'KGS', '₲': 'PYG', '₡': 'CRC', '₺': 'TRY', 'лир': 'TRY', '₭': 'LAK', '₮': 'MNT', 'тугрик': 'MNT',
+    'тугриков': 'MNT', '៛': 'KHR', 'руб': 'RUB', 'руб.': 'RUB', 'грн': 'UAH', 'дин.': 'RSD', 'дин': 'RSD', '¥': 'CNY', 'юан': 'CNY', 'din': 'RSD',
+    'DIN': 'RSD', 'динар': 'RSD', 'РСД': 'RSD', 'лв': 'BGN', 'Dh': 'MAD', 'Dh': 'MAD', '.د.م': 'MAD', 'lei': 'RON', 'Ft': 'HUF', 'Kč': 'CZK',
+    'крон': 'CZK', 'Rp': 'IDR', 'RM': 'MYR', 'сомони': 'TJS', '⃃': 'AED', 'дирхам': 'AED', 'UAE': 'AED',
     'R$': 'BRL', 'C$': 'CAD', 'A$': 'AUD', 'HK$': 'HKD', 'NT$': 'TWD', 'Dirham': 'AED', 'UAE Dirham': 'AED', 'дрх': 'AED',
     'NZ$': 'NZD', 'RD$': 'DOP', 'S$': 'SGD', '₫': 'VND', 'донг': 'VND', '₩': 'KRW', 'вон': 'KRW', 'won': 'KRW', 'Ft': 'HUF',
     'RM': 'MYR', 'ринггит': 'MYR', 'ringgit': 'MYR', '₪': 'ILS', 'шек': 'ILS', 'shekel': 'ILS', 'sheqel': 'ILS',
