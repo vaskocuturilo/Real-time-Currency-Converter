@@ -4,17 +4,22 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 
 ### Specifications:
 - Exchange rates for 217 currencies
-- Update daily information from 3 central banks and official sources 
+- Update daily information from 3 central banks and official sources
 
+      [  Backend API ](Daily Cron Job) (https://github.com/vaskocuturilo/CurrencyAPI)
+              │
+              ▼
+      [ Chrome Extension ]
+ 
 ## How the welcome page looks:
 
 ![](https://i.postimg.cc/5t75fs5G/Screenshot-at-Nov-07-22-58-25.png)
 
-## How it looks
+## How the extension looks: 
+
 ![](https://i.postimg.cc/MZtfKWw0/Screenshot-at-Oct-09-16-54-09.png)
 
-### How it works.
-- This extension helps users convert one currency to another in real time.
+### How the extension works:
 
 ![](https://i.postimg.cc/HLnstpnQ/Screenshot-at-Sep-02-17-44-02.png)
 
@@ -27,14 +32,3 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 ![](https://i.postimg.cc/L5kThGHP/Screenshot-at-Oct-09-16-49-39.png)
 
 ![](https://i.postimg.cc/J4mxS7qh/Screenshot-at-Oct-09-16-50-03.png)
-
-      [  Bank Feeds ]
-              │ (Daily Cron Job)
-              ▼
-    [ Database / Memory Cache ] 
-              │
-              ▼
-     [ REST API (Go) ]
-              │
-              ▼
-     [ Chrome Extension ]
