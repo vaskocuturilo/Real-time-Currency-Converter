@@ -6,6 +6,10 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 - Exchange rates for 217 currencies
 - Update daily information from 3 central banks and official sources 
 
+## How the welcome page looks:
+
+![](https://i.postimg.cc/5t75fs5G/Screenshot-at-Nov-07-22-58-25.png)
+
 ## How it looks
 ![](https://i.postimg.cc/MZtfKWw0/Screenshot-at-Oct-09-16-54-09.png)
 
