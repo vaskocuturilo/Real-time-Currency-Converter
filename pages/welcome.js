@@ -27,6 +27,8 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
         targetCurrency: selectedCurrency
     });
 
+    chrome.tabs.create({ url: chrome.runtime.getURL('../pages/start.html') });
+
     const mainCard = document.getElementById('mainCard');
     mainCard.innerHTML = `
         <div class="success-state">

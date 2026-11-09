@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Start Guide - Real-Time Currency Converter</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --primary: #38bdf8;
+            --primary-hover: #7dd3fc;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-purple: #818cf8;
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 720px;
+            width: 100%;
+        }
+
+        .guide-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--accent-purple));
+            border-radius: 16px;
+            font-size: 28px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.25);
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        /* Steps Flow */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-bottom: 36px;
+        }
+
+        .step-box {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text);
+        }
+
+        .step-content p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .step-image-preview {
+            width: 100%;
+            height: auto;
+            max-height: 220px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid var(--card-border);
+            background: #0b0f19;
+            display: block;
+            margin-top: 8px;
+            cursor: zoom-in;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .step-image-preview:hover {
+            border-color: var(--primary);
+            transform: scale(1.01);
+        }
+
+        kbd {
+            background: #334155;
+            color: #38bdf8;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 0.85em;
+            font-family: inherit;
+        }
+
+        /* Action Button */
+        .actions {
+            text-align: center;
+        }
+
+        #finishBtn {
+            width: 100%;
+            background: var(--primary);
+            color: #0f172a;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.3);
+        }
+
+        #finishBtn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4);
+        }
+
+        #finishBtn:active {
+            transform: translateY(0);
+        }
+
+        /* Fullscreen Modal Lightbox */
+        .image-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(6px);
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            animation: fadeInModal 0.25s ease-out;
+        }
+
+        .image-modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeInModal {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            max-width: 92%;
+            max-height: 90vh;
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            object-fit: contain;
+            background: #0b0f19;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            color: var(--text);
+            font-size: 32px;
+            font-weight: 300;
+            cursor: pointer;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-close:hover {
+            background: var(--primary);
+            color: #0f172a;
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="guide-card">
+            <div class="header">
+                <div class="logo-badge">📌</div>
+                <h1>Pin Your Extension for Quick Access</h1>
+                <p class="subtitle">Follow these two quick steps to pin the currency converter to your browser toolbar.
+                </p>
+            </div>
+
+            <div class="steps-container">
+                <!-- Step 1 -->
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Click the Extensions Puzzle Icon</h3>
+                        <p>Look at the top-right corner of your Chrome browser toolbar and click the puzzle piece icon
+                            <kbd>🧩</kbd> to open your installed extensions list.</p>
+                        <img src="../images/add.png" alt="Clicking the extensions puzzle icon on the browser toolbar"
+                            class="step-image-preview" />
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Find and Click the Pin Icon</h3>
+                        <p>Locate <strong>Real-Time Currency Converter</strong> in the drop-down menu and click the
+                            **Pin icon** <kbd>📌</kbd> next to it so it stays visible on your toolbar.</p>
+                        <img src="../images/pin.png" alt="Pinning the extension from the extensions list"
+                            class="step-image-preview" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="finishBtn">Got it, Let's Start Converting!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Full-Size Image Modal Lightbox -->
+    <div id="imageModal" class="image-modal">
+        <span class="modal-close">&times;</span>
+        <img class="modal-content" id="modalImage" alt="Enlarged screenshot preview">
+    </div>
+
+    <script src="start.js"></script>
+</body>
+
+</html>
