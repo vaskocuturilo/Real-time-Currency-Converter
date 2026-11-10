@@ -15,6 +15,12 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 
 ![](https://i.postimg.cc/5t75fs5G/Screenshot-at-Nov-07-22-58-25.png)
 
+## How the start page looks:
+
+![](https://i.postimg.cc/YCc7rG1w/Screenshot-at-Nov-10-05-22-15.png)
+
+![](https://i.postimg.cc/DwqT8vgb/Screenshot-at-Nov-10-05-22-26.png)
+
 ## How the extension looks: 
 
 ![](https://i.postimg.cc/PxHNPVZ7/Screenshot-at-Nov-10-05-15-43.png)
@@ -27,10 +33,10 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 
 ![](https://i.postimg.cc/x1x98WRF/Screenshot-at-Sep-02-17-44-20.png)
 
-![](https://i.postimg.cc/Njn1GQ1b/Screenshot-at-Oct-09-16-52-13.png)
+![](https://i.postimg.cc/GtZWmVTJ/Screenshot-at-Nov-10-05-23-51.png)
 
-![](https://i.postimg.cc/05mpSP3c/Screenshot-at-Sep-25-06-41-17.png)
+![](https://i.postimg.cc/Gpq6yHTW/Screenshot-at-Nov-10-05-25-11.png)
 
-![](https://i.postimg.cc/L5kThGHP/Screenshot-at-Oct-09-16-49-39.png)
+![](https://i.postimg.cc/qM2JCxJY/Screenshot-at-Nov-10-05-26-22.png)
 
 ![](https://i.postimg.cc/J4mxS7qh/Screenshot-at-Oct-09-16-50-03.png)
