@@ -4,7 +4,6 @@ import { detectDefaultCurrency } from '../utils/locale.js';
 document.addEventListener('DOMContentLoaded', () => {
     const selectElement = document.getElementById('currencySelect');
 
-    // Populate currencies alphabetically
     UNIQUE_CURRENCIES.forEach(code => {
         const option = document.createElement('option');
         option.value = code;
@@ -12,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
         selectElement.appendChild(option);
     });
 
-    // Detect and select regional currency fallback
     const defaultCurrency = detectDefaultCurrency();
     if (defaultCurrency && UNIQUE_CURRENCIES.includes(defaultCurrency)) {
         selectElement.value = defaultCurrency;
@@ -43,5 +41,5 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
         </div>
     `;
 
-    setTimeout(() => window.close(), 2500);
+    setTimeout(() => window.close(), 5500);
 });

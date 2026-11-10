@@ -2,13 +2,12 @@
 
 import { parseCurrencyMatch } from './utils/parser.js';
 import { currencyService } from './services/currencyService.js';
+import { detectDefaultCurrency } from './utils/locale.js';
 import { Tooltip } from './ui/tooltip.js';
 import { Widget } from './ui/widget.js';
 
 async function initApp() {
-  const targetCurrency = await currencyService.getTargetCurrency();
-
-  chrome.storage.local.get(['targetCurrency', 'widgetPosition'], (res) => {
+  chrome.storage.local.get(['targetCurrency', 'widgetPosition'], async (res) => {
     let activeCurrency = res.targetCurrency;
 
     if (!activeCurrency) {
@@ -16,9 +15,15 @@ async function initApp() {
       chrome.storage.local.set({ targetCurrency: activeCurrency });
     }
 
-    const widget = new Widget(activeCurrency, (newCurrency) => {
-      console.log('Currency changed to:', newCurrency);
-    });
+    const widget = new Widget(
+      activeCurrency,
+      (newCurrency) => {
+        console.log('Currency changed to:', newCurrency);
+      },
+      () => {
+        console.log('Widget hidden on this tab.');
+      }
+    );
 
     widget.render(res.widgetPosition);
   });
