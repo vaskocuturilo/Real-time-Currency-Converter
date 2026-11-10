@@ -5,16 +5,19 @@ import { parseCurrencyMatch } from '../utils/parser.js';
 import { currencyService } from '../services/currencyService.js';
 
 export class Widget {
-    constructor(initialCurrency, onCurrencyChange) {
+    constructor(initialCurrency, onCurrencyChange, onHide) {
         this.currentCurrency = initialCurrency;
         this.onCurrencyChange = onCurrencyChange;
+        this.onHide = onHide;
         this.container = null;
         this.button = null;
         this.menu = null;
         this.searchInput = null;
         this.resultBox = null;
         this.listContainer = null;
+        this.settingsView = null;
         this.footer = null;
+        this.isSettingsOpen = false;
     }
 
     render(savedPosition = null) {
@@ -93,12 +96,52 @@ export class Widget {
         Object.assign(this.listContainer.style, { overflowY: 'auto', maxHeight: '180px' });
 
         this.populateList();
+        this._createSettingsView();
         this._createFooter();
 
         this.menu.appendChild(this.searchInput);
         this.menu.appendChild(this.resultBox);
         this.menu.appendChild(this.listContainer);
+        this.menu.appendChild(this.settingsView);
         this.menu.appendChild(this.footer);
+    }
+
+    _createSettingsView() {
+        this.settingsView = document.createElement('div');
+        this.settingsView.id = 'cc-widget-settings';
+        Object.assign(this.settingsView.style, {
+            display: 'none', padding: '12px', backgroundColor: '#1e293b',
+            flexDirection: 'column', gap: '8px', maxHeight: '180px', overflowY: 'auto'
+        });
+
+        const title = document.createElement('div');
+        title.textContent = 'Extension Settings';
+        Object.assign(title.style, {
+            fontSize: '12px', fontWeight: 'bold', color: '#38bdf8', marginBottom: '4px'
+        });
+        this.settingsView.appendChild(title);
+
+        const hideBtn = document.createElement('button');
+        hideBtn.textContent = '👁️‍🗨️ Hide on this tab';
+        Object.assign(hideBtn.style, {
+            width: '100%', padding: '8px 10px', backgroundColor: 'rgba(239, 68, 68, 0.15)',
+            color: '#ef4444', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '6px',
+            fontSize: '12px', fontWeight: '600', cursor: 'pointer', textAlign: 'left',
+            transition: 'background 0.2s'
+        });
+        hideBtn.addEventListener('mouseenter', () => hideBtn.style.backgroundColor = 'rgba(239, 68, 68, 0.25)');
+        hideBtn.addEventListener('mouseleave', () => hideBtn.style.backgroundColor = 'rgba(239, 68, 68, 0.15)');
+
+        hideBtn.addEventListener('click', () => {
+            if (this.container) {
+                this.container.remove();
+            }
+            if (this.onHide) {
+                this.onHide();
+            }
+        });
+
+        this.settingsView.appendChild(hideBtn);
     }
 
     _createFooter() {
@@ -108,29 +151,67 @@ export class Widget {
             padding: '8px 10px',
             backgroundColor: '#0f172a',
             borderTop: '1px solid #334155',
-            textAlign: 'center',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             fontSize: '11px',
             color: '#94a3b8'
         });
 
+        const leftContainer = document.createElement('span');
         const text = document.createTextNode('Have you found an issue? ');
-
         const link = document.createElement('a');
-        link.href = 'https://example.com/feedback';
+        link.href = 'https://example.com/report';
         link.target = '_blank';
         link.rel = 'noopener noreferrer';
-        link.textContent = 'Click here.';
+        link.textContent = 'Make an issue report';
         Object.assign(link.style, {
             color: '#38bdf8',
             textDecoration: 'none',
             fontWeight: 'bold'
         });
-
         link.addEventListener('mouseenter', () => link.style.textDecoration = 'underline');
         link.addEventListener('mouseleave', () => link.style.textDecoration = 'none');
 
-        this.footer.appendChild(text);
-        this.footer.appendChild(link);
+        leftContainer.appendChild(text);
+        leftContainer.appendChild(link);
+
+        const gearBtn = document.createElement('button');
+        gearBtn.textContent = '⚙️';
+        gearBtn.title = 'Settings & Options';
+        Object.assign(gearBtn.style, {
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '14px',
+            padding: '2px 4px',
+            borderRadius: '4px',
+            transition: 'background 0.2s'
+        });
+        gearBtn.addEventListener('mouseenter', () => gearBtn.style.backgroundColor = '#334155');
+        gearBtn.addEventListener('mouseleave', () => gearBtn.style.backgroundColor = 'transparent');
+
+        gearBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.isSettingsOpen = !this.isSettingsOpen;
+            if (this.isSettingsOpen) {
+                this.listContainer.style.display = 'none';
+                this.searchInput.style.display = 'none';
+                this.resultBox.style.display = 'none';
+                this.settingsView.style.display = 'flex';
+                gearBtn.textContent = '↩️';
+                gearBtn.title = 'Back to Converter';
+            } else {
+                this.settingsView.style.display = 'none';
+                this.searchInput.style.display = 'block';
+                this.listContainer.style.display = 'block';
+                gearBtn.textContent = '⚙️';
+                gearBtn.title = 'Settings & Options';
+            }
+        });
+
+        this.footer.appendChild(leftContainer);
+        this.footer.appendChild(gearBtn);
     }
 
     populateList(filter = '') {
@@ -160,6 +241,10 @@ export class Widget {
         this.menu.style.display = 'none';
         this.searchInput.value = '';
         this.resultBox.style.display = 'none';
+        this.isSettingsOpen = false;
+        this.settingsView.style.display = 'none';
+        this.searchInput.style.display = 'block';
+        this.listContainer.style.display = 'block';
         this.populateList();
         if (this.onCurrencyChange) this.onCurrencyChange(code);
     }
@@ -174,6 +259,10 @@ export class Widget {
                     this.menu.style.display = 'none';
                     this.searchInput.value = '';
                     this.resultBox.style.display = 'none';
+                    this.isSettingsOpen = false;
+                    this.settingsView.style.display = 'none';
+                    this.searchInput.style.display = 'block';
+                    this.listContainer.style.display = 'block';
                     this.populateList();
                 }
             }
@@ -208,6 +297,7 @@ export class Widget {
                 if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
                     isDragging = true;
                     this.menu.style.display = 'none';
+                    this.isSettingsOpen = false;
                 }
 
                 if (isDragging) {
@@ -249,7 +339,14 @@ export class Widget {
             e.stopPropagation();
             const isVisible = this.menu.style.display === 'flex';
             this.menu.style.display = isVisible ? 'none' : 'flex';
-            if (!isVisible) this.searchInput.focus();
+            if (!isVisible) {
+                this.searchInput.focus();
+            } else {
+                this.isSettingsOpen = false;
+                this.settingsView.style.display = 'none';
+                this.searchInput.style.display = 'block';
+                this.listContainer.style.display = 'block';
+            }
         });
 
         this.searchInput.addEventListener('input', async (e) => {
@@ -288,6 +385,10 @@ export class Widget {
         document.addEventListener('click', (e) => {
             if (this.container && !this.container.contains(e.target)) {
                 this.menu.style.display = 'none';
+                this.isSettingsOpen = false;
+                this.settingsView.style.display = 'none';
+                this.searchInput.style.display = 'block';
+                this.listContainer.style.display = 'block';
             }
         });
     }

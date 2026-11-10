@@ -17,7 +17,9 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 
 ## How the extension looks: 
 
-![](https://i.postimg.cc/MZtfKWw0/Screenshot-at-Oct-09-16-54-09.png)
+![](https://i.postimg.cc/PxHNPVZ7/Screenshot-at-Nov-10-05-15-43.png)
+
+![](https://i.postimg.cc/gjkJKwgh/Screenshot-at-Nov-10-05-16-03.png)
 
 ### How the extension works:
 

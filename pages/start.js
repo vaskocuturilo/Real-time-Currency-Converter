@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.querySelector('.modal-close');
     const images = document.querySelectorAll('.step-image-preview');
 
-    // Finish button closes onboarding tab
     finishBtn.addEventListener('click', () => {
         window.close();
     });
