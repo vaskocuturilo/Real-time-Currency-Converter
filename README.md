@@ -4,7 +4,7 @@ A lightweight browser add‑on that instantly converts any currency value on a w
 
 ### Specifications:
 - Exchange rates for 217 currencies
-- Update daily information from 3 central banks and official sources
+- Update daily information from 4 central banks and official sources
 
       [  Backend API ](Daily Cron Job) (https://github.com/vaskocuturilo/CurrencyAPI)
               │
