@@ -15,8 +15,6 @@
       --text: #f8fafc;
       --text-muted: #94a3b8;
       --accent-purple: #818cf8;
-      --accent-green: #34d399;
-      --accent-amber: #fbbf24;
       --radius: 16px;
     }
 
@@ -39,7 +37,7 @@
     }
 
     .container {
-      max-width: 680px;
+      max-width: 860px;
       width: 100%;
     }
 
@@ -53,8 +51,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .header {
@@ -93,7 +98,7 @@
       border: 1px solid #334155;
       border-radius: 12px;
       padding: 24px;
-      margin-bottom: 32px;
+      margin-bottom: 36px;
       position: relative;
     }
 
@@ -156,53 +161,95 @@
       color: var(--text-muted);
     }
 
-    /* Feature Grid */
-    .features-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-      margin-bottom: 32px;
+    /* Presentation Section Title */
+    .presentation-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text);
     }
 
-    .feature-item {
-      background: rgba(15, 23, 42, 0.5);
+    /* 6-Step Presentation Grid */
+    .presentation-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 768px) {
+      .presentation-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .step-presentation-card {
+      background: rgba(15, 23, 42, 0.6);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 18px 20px;
+      padding: 20px;
       display: flex;
-      gap: 16px;
+      flex-direction: column;
+      gap: 14px;
       transition: border-color 0.2s, transform 0.2s;
     }
 
-    .feature-item:hover {
+    .step-presentation-card:hover {
       border-color: #475569;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
 
-    .feature-icon {
-      font-size: 22px;
-      line-height: 1;
-      padding-top: 2px;
+    .step-header-info {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
     }
 
-    .feature-content h3 {
+    .step-badge {
+      background: var(--primary);
+      color: #0f172a;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .step-texts h3 {
       font-size: 15px;
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
+      color: var(--text);
     }
 
-    .feature-content p {
+    .step-texts p {
       font-size: 13px;
       color: var(--text-muted);
+      line-height: 1.4;
     }
 
-    kbd {
-      background: #334155;
-      color: #38bdf8;
-      border-radius: 4px;
-      padding: 2px 6px;
-      font-size: 0.85em;
-      font-family: inherit;
+    .step-screenshot {
+      width: 100%;
+      height: auto;
+      max-height: 190px;
+      object-fit: contain;
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      background: #0b0f19;
+      cursor: zoom-in;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .step-screenshot:hover {
+      border-color: var(--primary);
+      transform: scale(1.01);
     }
 
     /* Actions */
@@ -253,6 +300,73 @@
       border-radius: 20px;
       font-weight: 700;
     }
+
+    /* Fullscreen Modal Lightbox */
+    .image-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      animation: fadeInModal 0.25s ease-out;
+    }
+
+    .image-modal.active {
+      display: flex;
+    }
+
+    @keyframes fadeInModal {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .modal-content {
+      max-width: 92%;
+      max-height: 90vh;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      object-fit: contain;
+      background: #0b0f19;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      color: var(--text);
+      font-size: 32px;
+      font-weight: 300;
+      cursor: pointer;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-close:hover {
+      background: var(--primary);
+      color: #0f172a;
+      border-color: var(--primary);
+    }
   </style>
 </head>
 
@@ -262,7 +376,7 @@
       <div class="header">
         <div class="logo-badge">🔲</div>
         <h1>Welcome to Real-Time Currency Converter</h1>
-        <p class="subtitle">Set your default currency and learn how to get started.</p>
+        <p class="subtitle">Set your default target currency and explore how the extension works.</p>
       </div>
 
       <!-- Currency Choice Card -->
@@ -279,30 +393,82 @@
         </div>
       </div>
 
-      <!-- Features Guide -->
-      <div class="features-grid">
-        <div class="feature-item">
-          <div class="feature-icon">✨</div>
-          <div class="feature-content">
-            <h3>Highlighting Mode (Instant Tooltip)</h3>
-            <p>Select any text on a web page (e.g. <code>1000 EUR</code>, <code>$50-$100</code>, <code>1,2 млн zł</code>) to instantly see the converted conversion hint.</p>
+      <!-- Presentation Section -->
+      <div class="presentation-title">
+        <span>📖</span> How it Works
+      </div>
+
+      <div class="presentation-grid">
+        <!-- Step 1 -->
+        <div class="step-presentation-card">
+          <div class="step-header-info">
+            <div class="step-badge">1</div>
+            <div class="step-texts">
+              <h3>Click the extension button</h3>
+              <p>Open the popup to convert currencies in real time.</p>
+            </div>
           </div>
+          <img src="../images/Screenshot1.png" alt="Click the extension button" class="step-screenshot" />
         </div>
 
-        <div class="feature-item">
-          <div class="feature-icon">🧩</div>
-          <div class="feature-content">
-            <h3>Draggable Corner Widget</h3>
-            <p>Click the floating button in the bottom corner to manually convert custom amounts, change preferences, or drag it anywhere on your screen.</p>
+        <!-- Step 2 -->
+        <div class="step-presentation-card">
+          <div class="step-header-info">
+            <div class="step-badge">2</div>
+            <div class="step-texts">
+              <h3>Enter an amount</h3>
+              <p>Get an instant conversion in the selected currency.</p>
+            </div>
           </div>
+          <img src="../images/Screenshot2.png" alt="Enter an amount" class="step-screenshot" />
         </div>
 
-        <div class="feature-item">
-          <div class="feature-icon">⚡</div>
-          <div class="feature-content">
-            <h3>Full Format & Suffix Support</h3>
-            <p>Recognizes ranges (<kbd>1K - 2K €</kbd>), words (<kbd>1000 евро</kbd>), and global symbols (<kbd>zł</kbd>, <kbd>₹</kbd>, <kbd>₽</kbd>, <kbd>₾</kbd>).</p>
+        <!-- Step 3 -->
+        <div class="step-presentation-card">
+          <div class="step-header-info">
+            <div class="step-badge">3</div>
+            <div class="step-texts">
+              <h3>Choose a currency</h3>
+              <p>Select any currency from the list.</p>
+            </div>
           </div>
+          <img src="../images/Screenshot3.png" alt="Choose a currency" class="step-screenshot" />
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-presentation-card">
+          <div class="step-header-info">
+            <div class="step-badge">4</div>
+            <div class="step-texts">
+              <h3>Select text on the page</h3>
+              <p>Highlight any amount on the webpage and see the conversion instantly.</p>
+            </div>
+          </div>
+          <img src="../images/Screenshot4.png" alt="Select text on the page" class="step-screenshot" />
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step-presentation-card">
+          <div class="step-header-info">
+            <div class="step-badge">5</div>
+            <div class="step-texts">
+              <h3>Move or hide the button</h3>
+              <p>Drag the button anywhere or hide it when you don't need it.</p>
+            </div>
+          </div>
+          <img src="../images/Screenshot5.png" alt="Move or hide the button" class="step-screenshot" />
+        </div>
+
+        <!-- Step 6 -->
+        <div class="step-presentation-card">
+          <div class="step-header-info">
+            <div class="step-badge">6</div>
+            <div class="step-texts">
+              <h3>Manage the extension</h3>
+              <p>You can hide the extension from the current tab.</p>
+            </div>
+          </div>
+          <img src="../images/Screenshot6.png" alt="Manage the extension" class="step-screenshot" />
         </div>
       </div>
 
@@ -311,6 +477,12 @@
         <button id="saveBtn">Save & Start Converting</button>
       </div>
     </div>
+  </div>
+
+  <!-- Full-Size Image Modal Lightbox -->
+  <div id="imageModal" class="image-modal">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImage" alt="Enlarged screenshot preview">
   </div>
 
   <script type="module" src="welcome.js"></script>
