@@ -15,6 +15,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (defaultCurrency && UNIQUE_CURRENCIES.includes(defaultCurrency)) {
         selectElement.value = defaultCurrency;
     }
+
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const closeBtn = document.querySelector('.modal-close');
+    const screenshots = document.querySelectorAll('.step-screenshot');
+
+    if (modal && screenshots.length > 0) {
+        screenshots.forEach(img => {
+            img.addEventListener('click', () => {
+                modal.classList.add('active');
+                modalImg.src = img.src;
+                modalImg.alt = img.alt;
+            });
+        });
+
+        const closeModal = () => {
+            modal.classList.remove('active');
+        };
+
+        closeBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    }
 });
 
 document.getElementById('saveBtn').addEventListener('click', async () => {
@@ -28,18 +61,22 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
     chrome.tabs.create({ url: chrome.runtime.getURL('../pages/start.html') });
 
     const mainCard = document.getElementById('mainCard');
-    mainCard.innerHTML = `
-        <div class="success-state">
-            <div class="success-icon">🎉</div>
-            <h1>You're All Set!</h1>
-            <p style="margin-top: 12px; color: #94a3b8;">
-                Your default currency is set to <span class="currency-pill">${selectedCurrency}</span>.
-            </p>
-            <p style="margin-top: 24px; font-size: 13px; color: #64748b;">
-                This onboarding tab will close automatically in a moment...
-            </p>
-        </div>
-    `;
+    if (mainCard) {
+        mainCard.innerHTML = `
+            <div class="success-state">
+                <div class="success-icon">🎉</div>
+                <h1>You're All Set!</h1>
+                <p style="margin-top: 12px; color: #94a3b8;">
+                    Your default currency is set to <span class="currency-pill">${selectedCurrency}</span>.
+                </p>
+                <p style="margin-top: 24px; font-size: 13px; color: #64748b;">
+                    This onboarding tab will close automatically...
+                </p>
+            </div>
+        `;
+    }
 
-    setTimeout(() => window.close(), 5500);
+    setTimeout(() => {
+        window.close();
+    }, 5500);
 });
