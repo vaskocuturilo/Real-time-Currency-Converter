@@ -1,7 +1,8 @@
 import { escapeRegExp } from './utils/parser.js';
 
 export const CACHE_TTL_MS = 3600 * 1000;
-export const API_URL = 'https://api.frankfurter.dev/v2/rates';
+export const PRIMARY_API_URL = 'https://api.openrates.dev/v1/currencies';
+export const FALLBACK_API_URL = 'https://api.frankfurter.dev/v2/rates';
 
 export const CURRENCY_MAP = {
     '$': 'USD', 'доллар': 'USD', '€': 'EUR', 'евро': 'EUR', 'evro': 'EUR', 'euro': 'EUR', '£': 'GBP', 'фунт': 'GBP', '円': 'JPY',
