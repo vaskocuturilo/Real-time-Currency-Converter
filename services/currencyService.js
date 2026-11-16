@@ -1,9 +1,37 @@
 // services/currencyService.js
 
-import { API_URL, CACHE_TTL_MS, CURRENCY_MAP } from '../constants.js';
+import { PRIMARY_API_URL, FALLBACK_API_URL, CACHE_TTL_MS, CURRENCY_MAP } from '../constants.js';
 import { detectDefaultCurrency } from '../utils/locale.js';
 
 class CurrencyService {
+    constructor() {
+        this.apiUrls = [PRIMARY_API_URL, FALLBACK_API_URL];
+    }
+
+    async fetchRatesFromApi() {
+        let lastError = null;
+
+        for (const url of this.apiUrls) {
+            try {
+                const response = await fetch(url, {
+                    signal: AbortSignal.timeout(5000)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status} from ${url}`);
+                }
+
+                const data = await response.json();
+
+                return data;
+            } catch (error) {
+                lastError = error;
+            }
+        }
+
+        throw lastError || new Error('All currency API endpoints are unavailable.');
+    }
+
     async getRates() {
         return new Promise((resolve) => {
             chrome.storage.local.get(['cachedRates', 'lastFetch'], async (storage) => {
@@ -13,9 +41,7 @@ class CurrencyService {
 
                 if (isExpired) {
                     try {
-                        const response = await fetch(API_URL);
-                        if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
-                        const data = await response.json();
+                        const data = await this.fetchRatesFromApi();
 
                         rates = data.reduce((acc, item) => {
                             acc[item.quote] = item.rate;

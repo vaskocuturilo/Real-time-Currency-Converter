@@ -3,6 +3,10 @@
   "name": "Currency Converter Extension",
   "version": "3.0",
   "description": "A lightweight browser add‑on that instantly converts any currency value on a webpage to your preferred currency.",
+  "host_permissions": [
+    "https://api.openrates.dev/*",
+    "https://api.frankfurter.dev/*"
+  ],
   "permissions": [
     "storage"
   ],
