@@ -99,7 +99,6 @@ class CurrencyService {
             amount1 = parsedData.amount1;
             amount2 = parsedData.amount2;
         } else {
-            // Backward compatibility fallback
             amount1 = arguments[0];
             sourceCurrency = arguments[1];
             targetCurrency = arguments[2];

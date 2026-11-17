@@ -14,19 +14,16 @@ const SUFFIX_MULTIPLIERS = {
 export function parseAmount(rawStr) {
     if (!rawStr) return NaN;
 
-    // 1. Extract trailing suffix (matching with optional leading space)
     const suffixMatch = rawStr.match(/\s*(млн|mln|[kKmMbBкКмМбБ])\s*$/iu);
     const suffix = suffixMatch ? suffixMatch[1].toLowerCase() : null;
     const multiplier = suffix ? SUFFIX_MULTIPLIERS[suffix] : 1;
 
-    // 2. Remove the suffix, then strip all remaining spaces and non-breaking spaces
     let cleaned = rawStr.replace(/\s*(млн|mln|[kKmMbBкКмМбБ])\s*$/iu, '');
     cleaned = cleaned.replace(/[\s\u00A0]/gu, '');
     cleaned = cleaned.replace(/^[.,]+|[.,]+$/g, '');
 
     if (!cleaned) return NaN;
 
-    // 3. Handle decimal and thousand separators
     const hasDot = cleaned.includes('.');
     const hasComma = cleaned.includes(',');
 
