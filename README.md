@@ -13,7 +13,7 @@ A lightweight browser add‑on that instantly converts any currency value on a w
   
 ## Deployment
 
-The public API runs at https://www.openrates.dev/.
+The public page for the extension runs at https://www.openrates.dev/.
  
 ## How the welcome page looks:
 
