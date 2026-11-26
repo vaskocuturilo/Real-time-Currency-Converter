@@ -10,6 +10,10 @@ A lightweight browser add‑on that instantly converts any currency value on a w
               │
               ▼
       [ Chrome Extension ]
+  
+## Deployment
+
+The public API runs at https://www.openrates.dev/.
  
 ## How the welcome page looks:
 
